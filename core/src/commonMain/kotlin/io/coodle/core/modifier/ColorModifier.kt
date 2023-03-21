@@ -21,22 +21,6 @@ class Background(private val color: Color): Modifier {
     }
 }
 
-data class Border(val width: Int, val color: Color)
-
 fun Modifier.background(color: Color) = then(Background(color))
 
-fun Modifier.border(size: Int, color: Color): Modifier{
-    val border = object: Modifier{
-        override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
-        ) {
-           doodleNode.border = Border(size, color)
-        }
-    }
-
-    return then(border)
-}
 
