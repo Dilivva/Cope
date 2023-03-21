@@ -40,7 +40,7 @@ fun LoginScreen2() {
                 .fillMaxWidth(2)
                 .padding(20)
                 .background(Color.Orange)
-                .clip(CutCornerShape(15, 15, 15, 15))
+                .border(Color.Blue, 5.0, RoundedCorner(15))
                 .align(Alignment.Center)
         ) {
             Row(modifier = Modifier.fillMaxWidth().padding(5)) {

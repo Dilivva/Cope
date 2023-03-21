@@ -10,22 +10,22 @@ import io.nacular.doodle.geometry.Point
 import io.nacular.doodle.geometry.path
 import io.nacular.doodle.geometry.rounded
 
-interface Clip{
+interface Shape{
     val radius: Double
-    fun render(canvas: Canvas, doodleNode: DoodleNode)
+    fun render(canvas: Canvas, doodleNode: DoodleNode, stroke: Stroke?)
 }
 class RoundedCorner(
-    private val topLeft: Int = 0,
-    private val topRight: Int = 0,
-    private val bottomLeft: Int = 0,
-    private val bottomRight: Int = 0
-): Clip{
+    private val all: Int = 0,
+    private val topLeft: Int = all,
+    private val topRight: Int = all,
+    private val bottomLeft: Int = all,
+    private val bottomRight: Int = all
+): Shape{
     override val radius: Double
         get() = (topLeft + topRight + bottomLeft + bottomRight).toDouble()
 
-    override fun render(canvas: Canvas, doodleNode: DoodleNode) {
+    override fun render(canvas: Canvas, doodleNode: DoodleNode, stroke: Stroke?) {
         val paint = doodleNode.backgroundColor.paint
-        val stroke = Stroke.invoke(doodleNode.border.color, doodleNode.border.width.toDouble())
         val path = doodleNode.view.bounds.atOrigin.rounded { index: Int, _: Point ->
             return@rounded when(index){
                 0 -> topLeft.toDouble()
@@ -34,7 +34,11 @@ class RoundedCorner(
                 else -> bottomLeft.toDouble()
             }
         }
-        canvas.path(path, fill = paint, stroke = stroke)
+        if (stroke != null) {
+            canvas.path(path, fill = paint, stroke = stroke)
+        }else{
+            canvas.path(path, fill = paint)
+        }
     }
 
     override fun toString(): String {
@@ -42,45 +46,58 @@ class RoundedCorner(
     }
 }
 
-object RectangleShape: Clip{
+object RectangleShape: Shape{
     override val radius: Double = 0.0
-    override fun render(canvas: Canvas, doodleNode: DoodleNode) {
+    override fun render(canvas: Canvas, doodleNode: DoodleNode, stroke: Stroke?) {
         val paint = doodleNode.backgroundColor.paint
-        val stroke = Stroke.invoke(doodleNode.border.color, doodleNode.border.width.toDouble())
-        canvas.rect(
-            doodleNode.view.bounds.atOrigin,
-            fill = paint,
-            stroke = stroke
-        )
+        if (stroke != null) {
+            canvas.rect(
+                doodleNode.view.bounds.atOrigin,
+                fill = paint,
+                stroke = stroke
+            )
+        }else{
+            canvas.rect(
+                doodleNode.view.bounds.atOrigin,
+                fill = paint
+            )
+        }
     }
 }
 
-object CircleShape: Clip{
+object CircleShape: Shape{
     override val radius: Double
         get() = 0.0
 
-    override fun render(canvas: Canvas, doodleNode: DoodleNode) {
+    override fun render(canvas: Canvas, doodleNode: DoodleNode, stroke: Stroke?) {
         val paint = doodleNode.backgroundColor.paint
-        val stroke = Stroke.invoke(doodleNode.border.color, doodleNode.border.width.toDouble())
-        canvas.circle(
-            Circle( center = doodleNode.view.center,doodleNode.view.bounds.height / 2),
-            fill = paint,
-            stroke = stroke
-        )
+        if (stroke != null){
+            canvas.circle(
+                Circle( center = doodleNode.view.center,doodleNode.view.bounds.height / 2),
+                fill = paint,
+                stroke = stroke
+            )
+        }else{
+            canvas.circle(
+                Circle( center = doodleNode.view.center,doodleNode.view.bounds.height / 2),
+                fill = paint
+            )
+        }
+
     }
 }
 class CutCornerShape(
-    private val topLeft: Int = 0,
-    private val topRight: Int = 0,
-    private val bottomLeft: Int = 0,
-    private val bottomRight: Int = 0
-): Clip{
+    private val all: Int = 0,
+    private val topLeft: Int = all,
+    private val topRight: Int = all,
+    private val bottomLeft: Int = all,
+    private val bottomRight: Int = all
+): Shape{
     override val radius: Double
         get() = 0.0
 
-    override fun render(canvas: Canvas, doodleNode: DoodleNode) {
+    override fun render(canvas: Canvas, doodleNode: DoodleNode, stroke: Stroke?) {
         val paint = doodleNode.backgroundColor.paint
-        val stroke = Stroke.invoke(doodleNode.border.color, doodleNode.border.width.toDouble())
 
         val startPosition = doodleNode.view.bounds.atOrigin.position
         val startEdge = Point(x = startPosition.x + topLeft, startPosition.y )
@@ -95,12 +112,17 @@ class CutCornerShape(
         path.lineTo(Point(x = startPosition.x, rect.height - bottomLeft))
         path.lineTo(Point(x = startPosition.x, startPosition.y + topLeft))
         path.lineTo(startEdge)
-        canvas.path(path.close(), fill = paint, stroke = stroke)
+
+        if (stroke != null) {
+            canvas.path(path.close(), fill = paint, stroke = stroke)
+        }else{
+            canvas.path(path.close(), fill = paint)
+        }
     }
 
 }
 
-fun Modifier.clip(clip: Clip): Modifier{
+fun Modifier.clip(shape: Shape): Modifier{
     val clippedShape = object: Modifier{
 
         override fun apply(
@@ -109,7 +131,7 @@ fun Modifier.clip(clip: Clip): Modifier{
             parent: PositionableContainer?,
             container: View
         ) {
-           doodleNode.shapeType =  clip
+           doodleNode.shape =  shape
         }
     }
     return then(clippedShape)

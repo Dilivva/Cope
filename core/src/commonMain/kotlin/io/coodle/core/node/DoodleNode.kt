@@ -3,6 +3,7 @@ package io.coodle.core.node
 import io.coodle.core.modifier.*
 import io.coodle.core.modifier.FillMaxHeight.containAnyAlignment
 import io.coodle.core.modifier.FillMaxHeight.toList
+import io.coodle.core.modifier.Shape
 import io.nacular.doodle.controls.panels.ScrollPanel
 import io.nacular.doodle.core.Container
 import io.nacular.doodle.core.PositionableContainer
@@ -50,7 +51,7 @@ abstract class DoodleNode {
 
     var radius = 0.0
 
-    var border = Border(0, Color.Transparent)
+    var border: Border? = null
 
     var size = Size(width, height)
         set(value) {
@@ -76,7 +77,7 @@ abstract class DoodleNode {
 
     var scrollable = false
 
-    var shapeType: Clip = RectangleShape
+    var shape: Shape? = null
 
 
     var bounds = Rectangle(x, y, width, height)
@@ -113,7 +114,8 @@ abstract class DoodleNode {
     }
 
     protected fun Canvas.applyShapeAndBackground() {
-        shapeType.render(this, this@DoodleNode)
+        shape?.render(this, this@DoodleNode, null)
+        border?.draw(this, this@DoodleNode)
     }
 
 
