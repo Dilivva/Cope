@@ -40,22 +40,23 @@ fun LoginScreen2() {
                 .fillMaxWidth(2)
                 .padding(20)
                 .background(Color.Orange)
-                .clip(RoundedCorner(15))
+                .clip(CutCornerShape(15, 15, 15, 15))
                 .align(Alignment.Center)
         ) {
             Row(modifier = Modifier.fillMaxWidth().padding(5)) {
                 Text(
-                    text = "Welcome", Color.Blue, modifier = Modifier
-                        .size(35, 200)
+                    text = "Welcome", Color.White, modifier = Modifier
+                        .size(100, 100)
+                        .background(Color.Blue)
                         .align(Alignment.Vertical.CenterVertically)
                 )
-                Text(
-                    text = "Login here",
-                    Color.Blue,
-                    modifier = Modifier
-                        .size(35, 200)
-                        .align(Alignment.Vertical.CenterVertically)
-                )
+//                Text(
+//                    text = "Login here",
+//                    Color.Blue,
+//                    modifier = Modifier
+//                        .size(35, 200)
+//                        .align(Alignment.Vertical.CenterVertically)
+//                )
             }
 
             TextField(

@@ -7,13 +7,9 @@ import io.nacular.doodle.controls.panels.ScrollPanel
 import io.nacular.doodle.core.Container
 import io.nacular.doodle.core.PositionableContainer
 import io.nacular.doodle.core.View
-import io.nacular.doodle.core.center
 import io.nacular.doodle.drawing.*
-import io.nacular.doodle.geometry.Circle
-import io.nacular.doodle.geometry.Rectangle
-import io.nacular.doodle.geometry.Size
+import io.nacular.doodle.geometry.*
 import io.nacular.doodle.layout.constraints.constrain
-
 
 
 abstract class DoodleNode {
@@ -80,7 +76,7 @@ abstract class DoodleNode {
 
     var scrollable = false
 
-    var shapeType: Clip = RoundedCorner(0)
+    var shapeType: Clip = RectangleShape
 
 
     var bounds = Rectangle(x, y, width, height)
@@ -117,21 +113,10 @@ abstract class DoodleNode {
     }
 
     protected fun Canvas.applyShapeAndBackground() {
-        when (shapeType.getType()) {
-            Clip.ShapeType.Rectangle -> {
-                rect(
-                    this@DoodleNode.view.bounds.atOrigin,
-                    radius = shapeType.radius,
-                    fill = backgroundColor.paint,
-                    stroke = Stroke.invoke(border.color, border.width.toDouble())
-                )
-            }
-
-            Clip.ShapeType.Circle -> {
-                circle(Circle(this@DoodleNode.view.center, shapeType.radius), fill = backgroundColor.paint)
-            }
-        }
+        shapeType.render(this, this@DoodleNode)
     }
+
+
 
     private fun applyScroll() {
         if (scrollable && container.children[0] !is ScrollPanel) {
