@@ -14,7 +14,7 @@ fun TextField(
     onTextChanged: (String) -> Unit
 ){
     val textField = TextField().apply {
-        this.placeHolder = "Email"
+        this.placeHolder = "Unspecified"
         this.foregroundColor = Color.Red
         this.textChanged += { _: TextInput, _: String, new: String ->
             onTextChanged(new)
