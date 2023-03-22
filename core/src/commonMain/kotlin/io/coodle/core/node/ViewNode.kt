@@ -11,11 +11,13 @@ class ViewNode(override var view: View): DoodleNode(){
         render = {
             applyShapeAndBackground()
         }
-        layout = containerLayout(children.first())
+        layout = containerLayout(view)
     }
 
     fun update(view: View){
+        view.bounds = this.view.bounds
         this.view = view
         container.children[0] = this.view
     }
+
 }

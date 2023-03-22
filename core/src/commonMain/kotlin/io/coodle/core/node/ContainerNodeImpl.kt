@@ -13,14 +13,15 @@ class ContainerNodeImpl(private val measurement: LayoutMeasurement) : ContainerN
             measurement.layout(doodleChildren, it, this)
             recalculateSize()
         }
-        render = {
-            applyShapeAndBackground()
-        }
     }
 
     override val container = container {
         children += view
-        layout =  containerLayout(children.first())
+        render = {
+            applyShapeAndBackground()
+        }
+        layout =  containerLayout(view)
+
     }
     override val children: ObservableList<View> = view.children
 

@@ -68,7 +68,7 @@ abstract class DoodleNode {
                     modifier.apply(view, this, positionable, container)
                 }
                 applyScroll()
-                view.rerender()
+                //view.rerender()
             }
         }
 
@@ -77,7 +77,7 @@ abstract class DoodleNode {
 
     var scrollable = false
 
-    var shape: Shape? = null
+    var shape: Shape = RectangleShape
 
 
     var bounds = Rectangle(x, y, width, height)
@@ -114,7 +114,7 @@ abstract class DoodleNode {
     }
 
     protected fun Canvas.applyShapeAndBackground() {
-        shape?.render(this, this@DoodleNode, null)
+        shape.render(this, this@DoodleNode, null)
         border?.draw(this, this@DoodleNode)
     }
 

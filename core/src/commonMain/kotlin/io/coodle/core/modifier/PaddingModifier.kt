@@ -26,7 +26,7 @@ data class Padding(
 
 
     override fun toString(): String {
-        return "Padding"
+        return "[$left,$top,$right,$bottom]"
     }
 }
 

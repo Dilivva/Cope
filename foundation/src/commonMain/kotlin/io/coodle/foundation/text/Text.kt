@@ -7,16 +7,17 @@ import io.nacular.doodle.controls.text.Label
 import io.nacular.doodle.drawing.Color
 
 
-
 @Composable
 fun Text(
     text: String,
     textColor: Color,
     modifier: Modifier = Modifier
 ){
+    println("Text called")
     val label = Label().apply {
         this.text = text
         this.foregroundColor = textColor
+        fitText = setOf()
     }
     Layout(label, modifier)
 }
