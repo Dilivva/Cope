@@ -40,7 +40,7 @@ fun LoginScreen2() {
                 .fillMaxWidth(2)
                 .padding(20)
                 .background(Color.Orange)
-                .border(Color.Blue, 5.0, RoundedCorner(15))
+                .border(Color.Blue, 2.0, CutCornerShape(15))
                 .align(Alignment.Center)
         ) {
             Row(modifier = Modifier.fillMaxWidth().padding(5)) {
@@ -48,6 +48,7 @@ fun LoginScreen2() {
                     text = "Welcome", Color.White, modifier = Modifier
                         .size(100, 100)
                         .background(Color.Blue)
+                        .padding(10)
                         .align(Alignment.Vertical.CenterVertically)
                 )
 //                Text(
