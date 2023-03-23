@@ -1,6 +1,6 @@
 package io.cherrio.coodle
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import io.coodle.core.layout.Alignment
 import io.coodle.core.layout.Box
 import io.coodle.core.layout.Column
@@ -34,22 +34,32 @@ fun main() {
 
 @Composable
 fun LoginScreen2() {
+    var welcomeCount by remember { mutableStateOf(0) }
     Box(modifier = Modifier.fillMaxSize().background(Color.Pink)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth(2)
-                .padding(20)
+                .padding(10)
                 .background(Color.Orange)
-                .border(Color.Blue, 2.0, CutCornerShape(15))
+                .clip(RoundedCorner(15))
                 .align(Alignment.Center)
         ) {
-            Row(modifier = Modifier.fillMaxWidth().padding(5)) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(15)
+                .clickable {
+                    welcomeCount++
+                }
+                .background(Color.Red)
+            ) {
                 Text(
-                    text = "Welcome", Color.White, modifier = Modifier
-                        .size(100, 100)
-                        .background(Color.Blue)
-                        .padding(10)
-                        .align(Alignment.Vertical.CenterVertically)
+                    text = "Welcome $welcomeCount",
+                    Color.White,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8)
+                        .height(40.dp)
+                        .background(Color.Pink)
                 )
 //                Text(
 //                    text = "Login here",
@@ -81,6 +91,7 @@ fun LoginScreen2() {
                 modifier = Modifier
                     .padding(10)
                     .fillMaxWidth()
+                    .background(Color.Green)
                     .height(50.dp),
                 text = "Login",
                 textColor = Color.White

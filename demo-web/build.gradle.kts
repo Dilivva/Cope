@@ -17,6 +17,9 @@ kotlin{
             runTask {
                 devServer = devServer?.copy(port = 3500)
             }
+            commonWebpackConfig {
+                sourceMaps = false
+            }
         }
         binaries.executable()
     }
