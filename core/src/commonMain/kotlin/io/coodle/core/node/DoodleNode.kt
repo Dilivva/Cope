@@ -4,6 +4,7 @@ import io.coodle.core.modifier.*
 import io.coodle.core.modifier.FillMaxHeight.containAnyAlignment
 import io.coodle.core.modifier.FillMaxHeight.toList
 import io.coodle.core.modifier.Shape
+import io.coodle.core.state.BackgroundColorState
 import io.nacular.doodle.controls.panels.ScrollPanel
 import io.nacular.doodle.core.Container
 import io.nacular.doodle.core.PositionableContainer
@@ -74,6 +75,15 @@ abstract class DoodleNode {
 
 
     var backgroundColor = Color.Transparent
+        get() {
+            return when{
+                backgroundColorState.isClicked -> field.darker()
+                backgroundColorState.isHovered -> field.darker(0.1f)
+                else -> field
+            }
+        }
+
+    internal var backgroundColorState = BackgroundColorState()
 
     var scrollable = false
 

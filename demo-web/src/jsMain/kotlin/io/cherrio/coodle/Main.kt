@@ -47,9 +47,6 @@ fun LoginScreen2() {
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .padding(15)
-                .clickable {
-                    welcomeCount++
-                }
                 .background(Color.Red)
             ) {
                 Text(
@@ -59,7 +56,6 @@ fun LoginScreen2() {
                         .fillMaxWidth()
                         .padding(8)
                         .height(40.dp)
-                        .background(Color.Pink)
                 )
 //                Text(
 //                    text = "Login here",
