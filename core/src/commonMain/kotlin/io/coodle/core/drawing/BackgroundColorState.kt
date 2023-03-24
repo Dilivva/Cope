@@ -1,4 +1,4 @@
-package io.coodle.core.state
+package io.coodle.core.drawing
 
 internal data class BackgroundColorState(
     val isHovered: Boolean = false,

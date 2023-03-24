@@ -2,7 +2,6 @@ package io.coodle.core.layout
 
 import io.coodle.core.modifier.Modifier
 import io.coodle.core.node.DoodleNode
-import io.nacular.doodle.core.View
 import io.nacular.doodle.core.PositionableContainer
 import io.nacular.doodle.geometry.Rectangle
 
@@ -16,14 +15,11 @@ interface Alignment: Modifier {
     }
 
     override fun apply(
-        view: View,
         doodleNode: DoodleNode,
-        parent: PositionableContainer?,
-        container: View
     ) {
-        parent?.let {
+        doodleNode.positionable?.let {
             val alignmentPosition = align(it, doodleNode)
-            container.bounds = Rectangle(alignmentPosition.x, alignmentPosition.y, container.width, container.height)
+            doodleNode.container.bounds = Rectangle(alignmentPosition.x, alignmentPosition.y, doodleNode.container.width, doodleNode.container.height)
         }
     }
 

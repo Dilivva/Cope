@@ -2,24 +2,19 @@
 package io.coodle.core.modifier
 
 import io.coodle.core.node.DoodleNode
-import io.nacular.doodle.core.PositionableContainer
-import io.nacular.doodle.core.View
 import io.nacular.doodle.geometry.Size
 
 
 object FillMaxSize: Modifier {
 
     override fun apply(
-        view: View,
-        doodleNode: DoodleNode,
-        parent: PositionableContainer?,
-        container: View
+        doodleNode: DoodleNode
     ) {
         //Remember padding
-        parent?.let {
-            if (parent.width > 0 && parent.height > 0) {
-                val width = parent.width - doodleNode.padding.horizontal
-                val height = parent.height - doodleNode.padding.vertical
+        doodleNode.positionable?.let {
+            if (it.width > 0 && it.height > 0) {
+                val width = it.width - doodleNode.padding.horizontal
+                val height = it.height - doodleNode.padding.vertical
                 doodleNode.size = Size(width, height)
                 doodleNode.fixedSize = true
             }
@@ -29,13 +24,10 @@ object FillMaxSize: Modifier {
 object FillMaxWidth: Modifier {
 
     override fun apply(
-        view: View,
-        doodleNode: DoodleNode,
-        parent: PositionableContainer?,
-        container: View
+        doodleNode: DoodleNode
     ) {
-        parent?.let {
-            if (parent.width > 0) doodleNode.width = parent.width - doodleNode.padding.horizontal
+        doodleNode.positionable?.let {
+            if (it.width > 0) doodleNode.width = it.width - doodleNode.padding.horizontal
             doodleNode.fixedWidth = true
         }
     }
@@ -44,13 +36,10 @@ object FillMaxWidth: Modifier {
 object FillMaxHeight: Modifier {
 
     override fun apply(
-        view: View,
-        doodleNode: DoodleNode,
-        parent: PositionableContainer?,
-        container: View
+        doodleNode: DoodleNode
     ) {
-        parent?.let {
-            if (parent.height > 0) doodleNode.height = parent.height - doodleNode.padding.vertical
+        doodleNode.positionable?.let {
+            if (it.height > 0) doodleNode.height = it.height - doodleNode.padding.vertical
             doodleNode.fixedHeight = true
         }
     }
@@ -60,12 +49,9 @@ object FillMaxHeight: Modifier {
 fun Modifier.size(height: Int, width: Int): Modifier{
     val size = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
-            parent?.let {
+            doodleNode.positionable?.let {
                 doodleNode.size = Size(width, height)
                 doodleNode.fixedSize = true
             }
@@ -76,12 +62,9 @@ fun Modifier.size(height: Int, width: Int): Modifier{
 fun Modifier.size(size: Dp): Modifier{
     val sizeImpl = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
-            parent?.let {
+            doodleNode.positionable?.let {
                 doodleNode.size = Size(size.value, size.value)
                 doodleNode.fixedSize = true
             }
@@ -99,13 +82,10 @@ fun Modifier.fillMaxWidth(): Modifier{
 fun Modifier.fillMaxWidth(fraction: Int): Modifier{
     val fillMaxWidthWithFraction = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
-            parent?.let {
-                val fractionOfParent = parent.width / fraction
+            doodleNode.positionable?.let {
+                val fractionOfParent = it.width / fraction
                 doodleNode.width = fractionOfParent
                 doodleNode.fixedWidth = true
             }
@@ -121,12 +101,9 @@ fun Modifier.width(width: Dp): Modifier{
     val widthImpl = object: Modifier{
 
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
-            parent?.let {
+            doodleNode.positionable?.let {
                 doodleNode.width = width.value
                 doodleNode.fixedWidth = true
             }
@@ -139,12 +116,9 @@ fun Modifier.height(height: Dp): Modifier{
     val heightImpl = object: Modifier{
 
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
-            parent?.let {
+            doodleNode.positionable?.let {
                 doodleNode.height = height.value
                 doodleNode.fixedHeight = true
             }

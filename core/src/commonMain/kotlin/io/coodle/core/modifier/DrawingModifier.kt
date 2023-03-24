@@ -2,9 +2,7 @@ package io.coodle.core.modifier
 
 import io.coodle.core.drawing.Drawing
 import io.coodle.core.node.DoodleNode
-import io.coodle.core.state.DrawScope
-import io.nacular.doodle.core.PositionableContainer
-import io.nacular.doodle.core.View
+import io.coodle.core.drawing.DrawScope
 import io.nacular.doodle.drawing.*
 
 
@@ -14,10 +12,7 @@ fun Modifier.background(
 ): Modifier{
     val backgroundModifier = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.backgroundColor = color
             doodleNode.drawing = shape
@@ -33,10 +28,7 @@ fun Modifier.background(
 ): Modifier{
     val backgroundModifier = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.backgroundColor = color.opacity(alpha)
             doodleNode.drawing = shape
@@ -50,10 +42,7 @@ fun Modifier.clip(shape: Shape): Modifier {
     val clippedShape = object : Modifier {
 
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.drawing = shape
         }
@@ -64,10 +53,7 @@ fun Modifier.clip(shape: Shape): Modifier {
 fun Modifier.alpha(alpha: Float): Modifier{
     val alphaModifier = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.backgroundColor = doodleNode.backgroundColor.opacity(alpha)
         }
@@ -84,10 +70,7 @@ internal class DrawingBehind(private val block: DrawScope.() -> Unit): Drawing{
 fun Modifier.drawBehind(block: DrawScope.() -> Unit): Modifier{
     val drawModifier = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.drawing = DrawingBehind(block)
         }
@@ -119,10 +102,7 @@ fun Modifier.shadow(
 ): Modifier{
     val shadowModifier = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.drawing = ShadowModifier(
                 elevation.toDouble(),
