@@ -2,7 +2,6 @@ package io.coodle.core.modifier
 
 import io.coodle.core.node.DoodleNode
 import io.coodle.core.utils.getCurrentTimeMls
-import io.nacular.doodle.core.PositionableContainer
 import io.nacular.doodle.core.View
 import io.nacular.doodle.event.PointerEvent
 import io.nacular.doodle.event.PointerListener
@@ -12,10 +11,7 @@ fun Modifier.clickable(block: () -> Unit): Modifier {
     var initialized = false
     val clickable = object : Modifier {
         override fun apply(
-            view: View,
             doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
         ) {
             if (!initialized) {
                 initialized = true
@@ -34,10 +30,7 @@ fun Modifier.combinedClickable(
     var initializeLongClick = false
     val combinedClick = object : Modifier {
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             if (initializedDoubleClick.not() && doubleClick != null){
                 initializedDoubleClick = true

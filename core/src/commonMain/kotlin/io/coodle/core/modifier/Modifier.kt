@@ -3,21 +3,21 @@ package io.coodle.core.modifier
 import androidx.compose.runtime.Stable
 import io.coodle.core.layout.Alignment
 import io.coodle.core.node.DoodleNode
-import io.nacular.doodle.core.PositionableContainer
-import io.nacular.doodle.core.View
 
 
-
+/**
+ * Add extra attributes and features to views
+ */
 @Stable
 interface Modifier {
     fun <R> fold(acc: R, operation: (R, Modifier) -> R): R =
         operation(acc, this)
 
+    /**
+     *
+     */
     fun apply(
-        view: View,
         doodleNode: DoodleNode,
-        parent: PositionableContainer?,
-        container: View
     ){}
 
     fun then(modifier: Modifier): Modifier {

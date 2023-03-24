@@ -2,8 +2,6 @@ package io.coodle.core.modifier
 
 import io.coodle.core.drawing.Drawing
 import io.coodle.core.node.DoodleNode
-import io.nacular.doodle.core.PositionableContainer
-import io.nacular.doodle.core.View
 import io.nacular.doodle.drawing.Canvas
 import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.drawing.Stroke
@@ -43,10 +41,7 @@ fun Modifier.border(
 ): Modifier{
     val border = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.drawing = BorderAndShape(shape, BorderStroke(color, width))
         }
@@ -60,10 +55,7 @@ fun Modifier.border(
 ): Modifier{
     val border = object: Modifier{
         override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
+            doodleNode: DoodleNode
         ) {
             doodleNode.border = BorderImpl(BorderStroke(color, width))
         }

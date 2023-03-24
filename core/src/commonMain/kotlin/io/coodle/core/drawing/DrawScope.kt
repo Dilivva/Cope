@@ -1,4 +1,4 @@
-package io.coodle.core.state
+package io.coodle.core.drawing
 
 import io.coodle.core.node.DoodleNode
 import io.nacular.doodle.drawing.Canvas

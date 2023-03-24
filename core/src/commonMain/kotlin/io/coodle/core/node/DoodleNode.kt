@@ -4,7 +4,7 @@ import io.coodle.core.drawing.Drawing
 import io.coodle.core.modifier.*
 import io.coodle.core.modifier.FillMaxHeight.containAnyAlignment
 import io.coodle.core.modifier.FillMaxHeight.toList
-import io.coodle.core.state.BackgroundColorState
+import io.coodle.core.drawing.BackgroundColorState
 import io.nacular.doodle.controls.panels.ScrollPanel
 import io.nacular.doodle.core.Container
 import io.nacular.doodle.core.PositionableContainer
@@ -66,7 +66,7 @@ abstract class DoodleNode {
             field = value
             if (positionable != null) {
                 value.fold(Unit) { _, modifier ->
-                    modifier.apply(view, this, positionable, container)
+                    modifier.apply( this)
                 }
                 applyScroll()
                 //view.rerender()
@@ -91,11 +91,6 @@ abstract class DoodleNode {
 
     var bounds = Rectangle(x, y, width, height)
     var positionable: PositionableContainer? = null
-
-    var parentSize = Size(0.0, 0.0)
-
-    var parent: ContainerNode? = null
-
 
     /**
      * This method is called when ever there's a redraw.
