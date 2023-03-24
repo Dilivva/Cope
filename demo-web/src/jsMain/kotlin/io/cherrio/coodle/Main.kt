@@ -12,6 +12,7 @@ import io.coodle.foundation.text.Text
 import io.coodle.foundation.textfield.TextField
 import io.nacular.doodle.application.Modules
 import io.nacular.doodle.drawing.Color
+
 import io.nacular.doodle.theme.basic.BasicTheme
 import io.nacular.doodle.theme.native.NativeTheme
 
@@ -41,13 +42,18 @@ fun LoginScreen2() {
                 .fillMaxWidth(2)
                 .padding(10)
                 .background(Color.Orange)
-                .clip(RoundedCorner(15))
+                //.clip(RoundedCorner(15))
+                .border(Color.Blue, 3.0, RoundedCorner(15))
                 .align(Alignment.Center)
         ) {
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .padding(15)
-                .background(Color.Red)
+                .background(Color.Pink)
+                .shadow(4)
+                .clickable {
+                    welcomeCount++
+                }
             ) {
                 Text(
                     text = "Welcome $welcomeCount",

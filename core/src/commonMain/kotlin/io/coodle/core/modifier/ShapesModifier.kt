@@ -1,15 +1,19 @@
 package io.coodle.core.modifier
 
+import io.coodle.core.drawing.Drawing
 import io.coodle.core.node.DoodleNode
-import io.nacular.doodle.core.*
 import io.nacular.doodle.drawing.Canvas
 import io.nacular.doodle.drawing.Stroke
 import io.nacular.doodle.drawing.paint
 import io.nacular.doodle.geometry.*
 
-interface Shape {
+interface Shape: Drawing {
     var size: Size
     fun render(canvas: Canvas, doodleNode: DoodleNode, stroke: Stroke?)
+
+    override fun draw(canvas: Canvas, doodleNode: DoodleNode) {
+        render(canvas, doodleNode, null)
+    }
 }
 
 class RoundedCorner(
@@ -157,19 +161,4 @@ class CutCornerShape(
         }
     }
 
-}
-
-fun Modifier.clip(shape: Shape): Modifier {
-    val clippedShape = object : Modifier {
-
-        override fun apply(
-            view: View,
-            doodleNode: DoodleNode,
-            parent: PositionableContainer?,
-            container: View
-        ) {
-            doodleNode.shape = shape
-        }
-    }
-    return then(clippedShape)
 }
