@@ -2,8 +2,6 @@ package io.coodle.core.node
 
 import io.coodle.core.drawing.Drawing
 import io.coodle.core.modifier.*
-import io.coodle.core.modifier.FillMaxHeight.containAnyAlignment
-import io.coodle.core.modifier.FillMaxHeight.toList
 import io.coodle.core.drawing.BackgroundColorState
 import io.nacular.doodle.controls.panels.ScrollPanel
 import io.nacular.doodle.core.Container
@@ -22,6 +20,9 @@ abstract class DoodleNode {
 
     abstract val view: View
     abstract val container: Container
+
+    internal var horizontalWeight: Float = 0f
+    internal var verticalWeight: Float = 0f
 
     var fixedHeight = false
     var fixedWidth = false
@@ -61,7 +62,7 @@ abstract class DoodleNode {
             width = value.width
         }
 
-    internal var modifier: Modifier = Modifier
+     var modifier: Modifier = Modifier
         set(value) {
             field = value
             if (positionable != null) {
@@ -84,6 +85,14 @@ abstract class DoodleNode {
         }
 
     internal var backgroundColorState = BackgroundColorState()
+    internal val incomingSize: Size
+        get() {
+            return if (positionable != null){
+                Size(positionable!!.width - padding.horizontal, positionable!!.height - padding.vertical)
+            }else{
+                Size(0.0, 0.0)
+            }
+        }
 
     var scrollable = false
 
@@ -134,7 +143,7 @@ abstract class DoodleNode {
     }
 
     protected fun applyBounds(container: View, modifier: Modifier) {
-        bounds = if (modifier.toList().containAnyAlignment()) {
+        bounds = if (modifier.containAnyAlignment()) {
             container.bounds
         } else {
             Rectangle(x, y, container.width, container.height)

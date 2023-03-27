@@ -4,20 +4,19 @@ import androidx.compose.runtime.Composable
 import io.coodle.core.layout.Layout
 import io.coodle.core.modifier.Modifier
 import io.nacular.doodle.controls.text.Label
-import io.nacular.doodle.drawing.Color
 
 
 @Composable
 fun Text(
     text: String,
-    textColor: Color,
     modifier: Modifier = Modifier
 ){
-    println("Text called")
+    println("Text called: $text")
     val label = Label().apply {
         this.text = text
-        this.foregroundColor = textColor
+        //this.foregroundColor = textColor
         fitText = setOf()
     }
+
     Layout(label, modifier)
 }
