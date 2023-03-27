@@ -33,7 +33,6 @@ interface Alignment: Modifier {
                 return AlignmentPosition.Default
             }
 
-
         }
         val TopEnd: Alignment = object: Alignment{
             override fun align(parent: PositionableContainer, doodleNode: DoodleNode): AlignmentPosition {

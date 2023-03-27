@@ -1,7 +1,6 @@
 package io.coodle.core.modifier
 
 import androidx.compose.runtime.Stable
-import io.coodle.core.layout.Alignment
 import io.coodle.core.node.DoodleNode
 
 
@@ -28,24 +27,7 @@ interface Modifier {
         override fun <R> fold(acc: R, operation: (R, Modifier) -> R): R = acc
     }
 
-    fun Modifier.toList(): List<Modifier>{
-        return fold(mutableListOf()) { list, modifier ->
-            list.add(modifier)
-            list
-        }
-    }
-
-    fun  List<Modifier>.containAnyAlignment(): Boolean{
-        forEach {
-            if (it is Alignment){
-                return true
-            }
-        }
-        return false
-    }
-
 }
-
 private class CombinedModifier(
     private val outer: Modifier,
     private val inner: Modifier
@@ -53,5 +35,15 @@ private class CombinedModifier(
     override fun <R> fold(acc: R, operation: (R, Modifier) -> R): R {
         return inner.fold(outer.fold(acc, operation), operation)
     }
+
+    override fun equals(other: Any?): Boolean =
+        other is CombinedModifier && outer == other.outer && inner == other.inner
+
+    override fun hashCode(): Int = outer.hashCode() + 31 * inner.hashCode()
+
+    override fun toString() = "[" + fold("") { acc, element ->
+        if (acc.isEmpty()) element.toString() else "$acc, $element"
+    } + "]"
+
 }
 

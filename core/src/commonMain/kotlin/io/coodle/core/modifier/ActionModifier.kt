@@ -7,112 +7,131 @@ import io.nacular.doodle.event.PointerEvent
 import io.nacular.doodle.event.PointerListener
 import io.nacular.doodle.system.Cursor
 
-fun Modifier.clickable(block: () -> Unit): Modifier {
-    var initialized = false
-    val clickable = object : Modifier {
-        override fun apply(
-            doodleNode: DoodleNode,
-        ) {
-            if (!initialized) {
-                initialized = true
-                onClick(doodleNode, doodleNode.view, block)
+
+private class ClicksModifier(
+    private val onClick: (() -> Unit)? = null,
+    private val longClick: (() -> Unit)? = null,
+    private val doubleClick: (() -> Unit)? = null
+): Modifier{
+    private var initialized = false
+    override fun apply(doodleNode: DoodleNode) {
+        if (onClick != null){
+            initialize {
+                onClick(doodleNode, doodleNode.view, onClick)
+            }
+        }
+        if (longClick != null){
+            initialize {
+                onLongClick(doodleNode, longClick)
+            }
+        }
+        if (doubleClick != null){
+            initialize {
+                onDoubleClick(doodleNode, doubleClick)
+            }
+        }
+
+        initialized = true
+    }
+
+    private fun initialize(block: () -> Unit){
+        if (!initialized){
+            block()
+        }
+    }
+
+    private fun onClick(node: DoodleNode, view: View, block: () -> Unit){
+        view.pointerChanged += object: ClickModifier{
+            override val doodleNode = node
+            override fun actionRelease() {
+                block()
             }
         }
     }
-    return then(clickable)
+
+    private fun onDoubleClick(node: DoodleNode, block: () -> Unit){
+        node.view.pointerChanged += object: ClickModifier {
+            override val doodleNode = node
+
+            var start = 0L
+            var end = 0L
+            val time = 500L
+            var accumulatedTime = 0L
+            var clickCount = 0
+
+            override fun actionPressed() {
+                if (clickCount == 0) start = getCurrentTimeMls()
+            }
+
+            override fun actionRelease() {
+                clickCount++
+                if (clickCount == 2){
+                    end = getCurrentTimeMls()
+                    accumulatedTime = end - start
+                }
+                when{
+                    clickCount == 2 && accumulatedTime <= time ->{
+                        block()
+                        clickCount = 0
+                        accumulatedTime = 0
+                    }
+                    clickCount == 2 && accumulatedTime > time ->{
+                        clickCount = 0
+                        accumulatedTime = 0
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onLongClick(node: DoodleNode, block: () -> Unit){
+        node.view.pointerChanged += object: ClickModifier {
+            override val doodleNode = node
+            var start = 0L
+            var end = 0L
+            val time = 500
+            override fun actionPressed() {
+                start = getCurrentTimeMls()
+            }
+
+            override fun actionRelease() {
+                end = getCurrentTimeMls()
+                if ((end - start) > time){
+                    block()
+                }
+            }
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        val otherClicksModifier = other as ClicksModifier
+        return onClick == otherClicksModifier.onClick &&
+                doubleClick == otherClicksModifier.doubleClick &&
+                longClick == otherClicksModifier.longClick
+    }
+
+    override fun hashCode(): Int {
+        var result = onClick?.hashCode() ?: 0
+        result = 31 * result + (longClick?.hashCode() ?: 0)
+        result = 31 * result + (doubleClick?.hashCode() ?: 0)
+        result = 31 * result + initialized.hashCode()
+        return result
+    }
+}
+fun Modifier.clickable(block: () -> Unit): Modifier {
+    return then(ClicksModifier(onClick = block))
 }
 
 fun Modifier.combinedClickable(
     longClick: (() -> Unit)? = null,
     doubleClick: (() -> Unit)? = null
 ): Modifier {
-    var initializedDoubleClick = false
-    var initializeLongClick = false
-    val combinedClick = object : Modifier {
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
-            if (initializedDoubleClick.not() && doubleClick != null){
-                initializedDoubleClick = true
-                onDoubleClick(doodleNode, doubleClick)
-            }
-            if (initializeLongClick.not() && longClick != null){
-                initializeLongClick = true
-                onLongClick(doodleNode, longClick)
-            }
-        }
-    }
-    return then(combinedClick)
-}
-
-private fun onClick(node: DoodleNode, view: View, block: () -> Unit){
-    view.pointerChanged += object: ClickModifier{
-        override val doodleNode = node
-        override fun actionRelease() {
-            block()
-        }
-    }
-}
-
-private fun onDoubleClick(node: DoodleNode, block: () -> Unit){
-    node.view.pointerChanged += object: ClickModifier {
-        override val doodleNode = node
-
-        var start = 0L
-        var end = 0L
-        val time = 500L
-        var accumulatedTime = 0L
-        var clickCount = 0
-
-        override fun actionPressed() {
-            if (clickCount == 0) start = getCurrentTimeMls()
-        }
-
-        override fun actionRelease() {
-            clickCount++
-            if (clickCount == 2){
-                end = getCurrentTimeMls()
-                accumulatedTime = end - start
-            }
-            when{
-                clickCount == 2 && accumulatedTime <= time ->{
-                    block()
-                    clickCount = 0
-                    accumulatedTime = 0
-                }
-                clickCount == 2 && accumulatedTime > time ->{
-                    clickCount = 0
-                    accumulatedTime = 0
-                }
-            }
-        }
-    }
-}
-
-private fun onLongClick(node: DoodleNode, block: () -> Unit){
-    node.view.pointerChanged += object: ClickModifier {
-        override val doodleNode = node
-        var start = 0L
-        var end = 0L
-        val time = 500
-        override fun actionPressed() {
-            start = getCurrentTimeMls()
-        }
-
-        override fun actionRelease() {
-            end = getCurrentTimeMls()
-            if ((end - start) > time){
-                block()
-            }
-        }
-    }
+    return then(ClicksModifier(longClick = longClick, doubleClick = doubleClick))
 }
 
 
 private interface ClickModifier: PointerListener{
     val doodleNode: DoodleNode
-
-
     fun actionPressed(){}
     fun actionRelease(){}
     override fun pressed(event: PointerEvent) {

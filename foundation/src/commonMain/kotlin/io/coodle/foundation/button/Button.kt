@@ -15,7 +15,7 @@ import io.nacular.doodle.system.Cursor
 fun Button(
     modifier: Modifier = Modifier,
     text: String,
-    textColor: Color
+    textColor: Color = Color.Red
 ){
     val button = PushButton().apply {
         this.text = text

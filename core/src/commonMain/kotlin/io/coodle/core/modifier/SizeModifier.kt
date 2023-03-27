@@ -1,12 +1,12 @@
 @file:Suppress("unused")
 package io.coodle.core.modifier
 
+import androidx.compose.runtime.Stable
 import io.coodle.core.node.DoodleNode
 import io.nacular.doodle.geometry.Size
 
 
 object FillMaxSize: Modifier {
-
     override fun apply(
         doodleNode: DoodleNode
     ) {
@@ -20,115 +20,123 @@ object FillMaxSize: Modifier {
             }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        val otherFillMaxSize = other as FillMaxSize
+        return this === otherFillMaxSize
+    }
 }
-object FillMaxWidth: Modifier {
+
+class FillMaxWidth(private val fraction: Int): Modifier {
 
     override fun apply(
         doodleNode: DoodleNode
     ) {
         doodleNode.positionable?.let {
-            if (it.width > 0) doodleNode.width = it.width - doodleNode.padding.horizontal
+            if (it.width > 0) doodleNode.width = (it.width / fraction) - doodleNode.padding.horizontal
             doodleNode.fixedWidth = true
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        val otherFill = other as FillMaxWidth
+        return this.fraction == otherFill.fraction
+    }
+
+    override fun hashCode(): Int {
+        return fraction
+    }
+
 }
-object FillMaxHeight: Modifier {
+class FillMaxHeight(private val fraction: Int): Modifier {
 
     override fun apply(
         doodleNode: DoodleNode
     ) {
         doodleNode.positionable?.let {
-            if (it.height > 0) doodleNode.height = it.height - doodleNode.padding.vertical
+            if (it.height > 0) doodleNode.height = (it.height / fraction) - doodleNode.padding.vertical
             doodleNode.fixedHeight = true
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        val otherFill = other as FillMaxHeight
+        return this.fraction == otherFill.fraction
+    }
+
+    override fun hashCode(): Int {
+        return fraction
+    }
 }
 
+class SizeModifier(
+    private val height: Int? = null,
+    private val width: Int? = null
+): Modifier{
 
-fun Modifier.size(height: Int, width: Int): Modifier{
-    val size = object: Modifier{
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
+    override fun apply(doodleNode: DoodleNode) {
+        if (height != null && width != null){
             doodleNode.positionable?.let {
                 doodleNode.size = Size(width, height)
                 doodleNode.fixedSize = true
             }
+            return
         }
-    }
-    return then(size)
-}
-fun Modifier.size(size: Dp): Modifier{
-    val sizeImpl = object: Modifier{
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
+        height?.let {
             doodleNode.positionable?.let {
-                doodleNode.size = Size(size.value, size.value)
-                doodleNode.fixedSize = true
+                doodleNode.height = height.toDouble()
+                doodleNode.fixedHeight = true
             }
         }
+        width?.let {
+            doodleNode.positionable?.let {
+                doodleNode.width = width.toDouble()
+                doodleNode.fixedWidth = true
+            }
+        }
+
     }
-    return then(sizeImpl)
+
+    override fun equals(other: Any?): Boolean {
+        val sizeModifier = other as SizeModifier
+        return this.height == sizeModifier.height &&
+                this.width == sizeModifier.width
+    }
+
+    override fun hashCode(): Int {
+        var result = height ?: 0
+        result = 31 * result + (width ?: 0)
+        return result
+    }
+
+
+}
+
+
+fun Modifier.size(height: Int, width: Int): Modifier{
+    return then(SizeModifier(height, width))
+}
+fun Modifier.size(size: Int): Modifier{
+    return then(SizeModifier(size, size))
 }
 
 fun Modifier.fillMaxSize(): Modifier{
     return then(FillMaxSize)
 }
-fun Modifier.fillMaxWidth(): Modifier{
-    return then(FillMaxWidth)
+@Stable
+fun Modifier.fillMaxWidth(fraction: Int = 1): Modifier{
+    return then(FillMaxWidth(fraction))
 }
-fun Modifier.fillMaxWidth(fraction: Int): Modifier{
-    val fillMaxWidthWithFraction = object: Modifier{
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
-            doodleNode.positionable?.let {
-                val fractionOfParent = it.width / fraction
-                doodleNode.width = fractionOfParent
-                doodleNode.fixedWidth = true
-            }
-        }
-    }
-    return then(fillMaxWidthWithFraction)
-}
-fun Modifier.fillMaxHeight(): Modifier{
-    return then(FillMaxHeight)
+fun Modifier.fillMaxHeight(fraction: Int = 1): Modifier{
+    return then(FillMaxHeight(fraction))
 }
 
-fun Modifier.width(width: Dp): Modifier{
-    val widthImpl = object: Modifier{
-
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
-            doodleNode.positionable?.let {
-                doodleNode.width = width.value
-                doodleNode.fixedWidth = true
-            }
-        }
-
-    }
-    return then(widthImpl)
+fun Modifier.width(width: Int): Modifier{
+    return then(SizeModifier(width = width))
 }
-fun Modifier.height(height: Dp): Modifier{
-    val heightImpl = object: Modifier{
-
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
-            doodleNode.positionable?.let {
-                doodleNode.height = height.value
-                doodleNode.fixedHeight = true
-            }
-        }
-
-        override fun toString(): String {
-            return "Height"
-        }
-    }
-    return then(heightImpl)
+@Stable
+fun Modifier.height(height: Int): Modifier{
+    return then(SizeModifier(height = height))
 }
 
 

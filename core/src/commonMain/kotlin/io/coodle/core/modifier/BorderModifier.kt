@@ -34,32 +34,44 @@ data class BorderStroke(
     val width: Double
 )
 
+class BorderModifier(
+    private val color: Color,
+    private val width: Double,
+    private val shape: Shape? = null
+): Modifier{
+
+    override fun apply(doodleNode: DoodleNode) {
+        val border = if (shape != null){
+            BorderAndShape(shape, BorderStroke(color, width))
+        }else BorderImpl(BorderStroke(color, width))
+       doodleNode.drawing = border
+    }
+
+    override fun equals(other: Any?): Boolean {
+        val otherModifier = other as BorderModifier
+        return this.shape == otherModifier.shape &&
+                this.width == otherModifier.width &&
+                this.color == otherModifier.color
+    }
+
+    override fun hashCode(): Int {
+        var result = color.hashCode()
+        result = 31 * result + width.hashCode()
+        result = 31 * result + (shape?.hashCode() ?: 0)
+        return result
+    }
+}
 fun Modifier.border(
     color: Color,
     width: Double,
     shape: Shape
 ): Modifier{
-    val border = object: Modifier{
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
-            doodleNode.drawing = BorderAndShape(shape, BorderStroke(color, width))
-        }
-    }
-
-    return then(border)
+    return then(BorderModifier(color, width, shape))
 }
 fun Modifier.border(
      color: Color,
      width: Double
 ): Modifier{
-    val border = object: Modifier{
-        override fun apply(
-            doodleNode: DoodleNode
-        ) {
-            doodleNode.border = BorderImpl(BorderStroke(color, width))
-        }
-    }
 
-    return then(border)
+    return then(BorderModifier(color, width))
 }

@@ -16,6 +16,7 @@ import io.nacular.doodle.drawing.Color
 import io.nacular.doodle.theme.basic.BasicTheme
 import io.nacular.doodle.theme.native.NativeTheme
 
+
 fun main() {
     val themes = listOf(
         BasicTheme.basicButtonBehavior(),
@@ -29,13 +30,67 @@ fun main() {
     val allModules = themes + controls
 
     setContent(allModules) {
-        LoginScreen2()
+        var welcomeCount by remember { mutableStateOf(0) }
+
+
+        Row(modifier = Modifier
+            //.fillMaxWidth()
+            .padding(15)
+            .background(Color.Pink)
+            .shadow(4)
+        ) {
+            Text(
+                text = "Welcome",
+                modifier = Modifier
+                    //.background(Color.Pink)
+                    .width(100)
+                    .height(40)
+            )
+            Text(
+                text = "Login: $welcomeCount",
+                modifier = Modifier
+                    //.background(Color.Magenta)
+                    .width(100)
+                    .height(40)
+                    .clickable {
+                        welcomeCount++
+                    }
+            )
+            Text(
+                text = "Continue",
+                modifier = Modifier
+                    //.background(Color.Red)
+                    .width(100)
+                    .height(40)
+            )
+            Button(
+                modifier = Modifier
+                    .background(Color.Red)
+                    .width(100)
+                    .height(40),
+                text = "Login",
+            )
+        }
     }
+//    renderComposable(root = "roo"){
+//        Div {
+//            org.jetbrains.compose.web.dom.Button {  }
+//        }
+//    }
+}
+
+@Composable
+fun DebugScreen(){
+
 }
 
 @Composable
 fun LoginScreen2() {
-    var welcomeCount by remember { mutableStateOf(0) }
+
+    val firstMessage by remember { mutableStateOf("Welcome:") }
+    val secondMessage by remember { mutableStateOf("Login hereR") }
+    val thirdMessage by remember { mutableStateOf("ContinueR") }
+
     Box(modifier = Modifier.fillMaxSize().background(Color.Pink)) {
         Column(
             modifier = Modifier
@@ -46,37 +101,77 @@ fun LoginScreen2() {
                 .border(Color.Blue, 3.0, RoundedCorner(15))
                 .align(Alignment.Center)
         ) {
-            Row(modifier = Modifier
-                .fillMaxWidth()
+            Column(modifier = Modifier
+                //.fillMaxWidth()
                 .padding(15)
                 .background(Color.Pink)
                 .shadow(4)
-                .clickable {
-                    welcomeCount++
-                }
             ) {
                 Text(
-                    text = "Welcome $welcomeCount",
-                    Color.White,
+                    text = "Welcome",
                     modifier = Modifier
+                        .background(Color.Pink)
+                        .weight(1f)
                         .fillMaxWidth()
-                        .padding(8)
-                        .height(40.dp)
                 )
-//                Text(
-//                    text = "Login here",
-//                    Color.Blue,
-//                    modifier = Modifier
-//                        .size(35, 200)
-//                        .align(Alignment.Vertical.CenterVertically)
-//                )
+                Text(
+                    text = "Login here",
+                    modifier = Modifier
+                        .background(Color.Magenta)
+                        .weight(1f)
+                        .fillMaxWidth()
+                )
+                Text(
+                    text = "Continue",
+                    modifier = Modifier
+                        .background(Color.Red)
+                        .weight(1f)
+                        .fillMaxWidth()
+                )
+            }
+            Row(modifier = Modifier
+                //.fillMaxWidth()
+                .padding(15)
+                .background(Color.Pink)
+                .shadow(4)
+            ) {
+                Text(
+                    text = "Welcome",
+                    modifier = Modifier
+                        //.background(Color.Pink)
+                        .weight(1f)
+                        .height(40)
+                        .clickable {
+                            //welcomeCount++
+                        }
+                )
+                Text(
+                    text = "",
+                    modifier = Modifier
+                        //.background(Color.Magenta)
+                        .weight(1f)
+                        .height(40)
+                )
+                Text(
+                    text = "Continue",
+                    modifier = Modifier
+                        //.background(Color.Red)
+                        .weight(1f)
+                        .height(40)
+                )
+                Button(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40),
+                    text = "Login",
+                )
             }
 
             TextField(
                 modifier = Modifier
                     .padding(10)
                     .fillMaxWidth()
-                    .height(40.dp)
+                    .height(40)
             ) {
 
             }
@@ -84,7 +179,7 @@ fun LoginScreen2() {
                 modifier = Modifier
                     .padding(10)
                     .fillMaxWidth()
-                    .height(40.dp)
+                    .height(40)
             ) {
 
             }
@@ -94,7 +189,7 @@ fun LoginScreen2() {
                     .padding(10)
                     .fillMaxWidth()
                     .background(Color.Green)
-                    .height(50.dp),
+                    .height(50),
                 text = "Login",
                 textColor = Color.White
             )
