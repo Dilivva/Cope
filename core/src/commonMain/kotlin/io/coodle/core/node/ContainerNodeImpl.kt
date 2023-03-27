@@ -2,7 +2,6 @@ package io.coodle.core.node
 
 import io.coodle.core.layout.LayoutMeasurement
 import io.nacular.doodle.core.*
-import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.geometry.Size
 import io.nacular.doodle.utils.ObservableList
 
@@ -26,9 +25,8 @@ class ContainerNodeImpl(private val measurement: LayoutMeasurement) : ContainerN
     }
     override val children: ObservableList<View> = view.children
 
-    override fun recalculateSize() {
+    private fun recalculateSize() {
        val calculatedSize = measurement.getSize(this, doodleChildren)
-        //println("Calculated: $calculatedSize")
        size = when{
            calculatedSize.width == 0.0 && calculatedSize.height > 0 ->{
                Size(width = incomingSize.width, calculatedSize.height)
@@ -39,15 +37,5 @@ class ContainerNodeImpl(private val measurement: LayoutMeasurement) : ContainerN
            calculatedSize == Size.Empty -> incomingSize
            else -> calculatedSize
        }
-    }
-
-    override fun measure(x: Double, y: Double, positionable: PositionableContainer): Rectangle {
-        this.positionable = positionable
-        modifier = modifier
-
-        this.x = x
-        this.y = y
-        applyBounds(container, modifier)
-        return bounds
     }
 }
