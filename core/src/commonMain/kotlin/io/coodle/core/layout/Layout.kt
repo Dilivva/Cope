@@ -1,7 +1,6 @@
 package io.coodle.core.layout
 
 import androidx.compose.runtime.*
-import androidx.compose.runtime.ReusableComposeNode
 import io.coodle.core.modifier.Modifier
 import io.coodle.core.node.ContainerNodeImpl
 import io.coodle.core.node.DoodleNodeApplier
@@ -15,7 +14,7 @@ fun Layout(
     measurement: LayoutMeasurement,
     content: @Composable () -> Unit
 ){
-    ReusableComposeNode<ContainerNodeImpl, DoodleNodeApplier>(
+    ComposeNode<ContainerNodeImpl, DoodleNodeApplier>(
         factory = { ContainerNodeImpl(measurement) },
         update = {
         set(modifier){
@@ -26,7 +25,6 @@ fun Layout(
     )
 }
 
-@Suppress("NOTHING_TO_INLINE")
 @Composable
 fun Layout(
     view: View,
@@ -35,9 +33,6 @@ fun Layout(
     ComposeNode<ViewNode, DoodleNodeApplier>(
         factory = { ViewNode(view) }
     ) {
-        set(view){
-            update(view)
-        }
         set(modifier){
             this.modifier = modifier
         }
