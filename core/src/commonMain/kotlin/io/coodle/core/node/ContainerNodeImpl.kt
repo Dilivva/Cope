@@ -11,7 +11,7 @@ class ContainerNodeImpl(private val measurement: LayoutMeasurement) : ContainerN
 
      override val view: Container = container {
         layout = Layout.simpleLayout {
-            measurement.layout(doodleChildren, it, this)
+            measurement.layout(doodleChildren, it, this@ContainerNodeImpl)
             recalculateSize()
         }
     }
@@ -26,9 +26,8 @@ class ContainerNodeImpl(private val measurement: LayoutMeasurement) : ContainerN
     }
     override val children: ObservableList<View> = view.children
 
-    override fun recalculateSize() {
+    private fun recalculateSize() {
        val calculatedSize = measurement.getSize(this, doodleChildren)
-        //println("Calculated: $calculatedSize")
        size = when{
            calculatedSize.width == 0.0 && calculatedSize.height > 0 ->{
                Size(width = incomingSize.width, calculatedSize.height)
@@ -40,7 +39,6 @@ class ContainerNodeImpl(private val measurement: LayoutMeasurement) : ContainerN
            else -> calculatedSize
        }
     }
-
     override fun measure(x: Double, y: Double, positionable: PositionableContainer): Rectangle {
         this.positionable = positionable
         modifier = modifier

@@ -27,7 +27,6 @@ abstract class ContainerNode : DoodleNode() {
         children.clear()
         doodleChildren.clear()
     }
-    abstract fun recalculateSize()
 
 }
 private fun <T> MutableList<T>.remove(index: Int, count: Int) {

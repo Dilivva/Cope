@@ -62,14 +62,14 @@ abstract class DoodleNode {
             width = value.width
         }
 
-     var modifier: Modifier = Modifier
+     internal var modifier: Modifier = Modifier
         set(value) {
             field = value
             if (positionable != null) {
                 value.fold(Unit) { _, modifier ->
                     modifier.apply( this)
                 }
-                applyScroll()
+                //applyScroll()
                 //view.rerender()
             }
         }
@@ -98,15 +98,14 @@ abstract class DoodleNode {
 
 
 
-    var bounds = Rectangle(x, y, width, height)
+    protected var bounds = Rectangle(x, y, width, height)
     var positionable: PositionableContainer? = null
 
     /**
-     * This method is called when ever there's a redraw.
-     * It does the following:
-     * 1. Sets the layout container [PositionableContainer]
-     * 2. reapply the Modifiers
-     * 3. Applies the bounds
+     * Called when ever there's a need to re-layout
+     * 1. Sets the layout container [PositionableContainer] size
+     * 2. apply the Modifiers: measuring
+     * 3. apply placement
      *
      */
     open fun measure(x: Double, y: Double, positionable: PositionableContainer): Rectangle{

@@ -11,7 +11,7 @@ fun Text(
     text: String,
     modifier: Modifier = Modifier
 ){
-    println("Text called: $text")
+
     val label = Label().apply {
         this.text = text
         //this.foregroundColor = textColor

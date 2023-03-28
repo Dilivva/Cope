@@ -6,7 +6,6 @@ import androidx.compose.runtime.Stable
 import io.coodle.core.modifier.Modifier
 
 import io.coodle.core.node.DoodleNode
-import io.nacular.doodle.core.Container
 import io.nacular.doodle.core.PositionableContainer
 import io.nacular.doodle.geometry.Size
 
@@ -23,7 +22,7 @@ internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
     override fun layout(
         doodleViews: MutableList<DoodleNode>,
         positionableContainer: PositionableContainer,
-        container: Container
+        parent: DoodleNode
     ) {
         doodleViews.forEachIndexed { index, doodleNode ->
             positionableContainer.children[index].bounds = doodleNode.measure(0.0,0.0, positionableContainer)

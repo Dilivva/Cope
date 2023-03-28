@@ -27,6 +27,7 @@ class RootNode: ContainerNode() {
 
 
     fun getApplication(app: NoArgBindingDI<*>): Application {
+        println("Init app")
         //TODO: to make this customizable
         // Either remove ThemeManager and DynamicTheme for an extra design system on top of core
         val display: Display = app.instance()
@@ -43,8 +44,6 @@ class RootNode: ContainerNode() {
 
         }
     }
-
-    override fun recalculateSize() { /* No-op */ }
 
     override fun toString(): String {
         return "RootNode"
