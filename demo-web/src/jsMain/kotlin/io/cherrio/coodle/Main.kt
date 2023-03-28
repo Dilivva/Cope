@@ -40,18 +40,18 @@ fun main() {
             .shadow(4)
         ) {
             Text(
-                text = "Welcome",
+                text = "Welcome here",
                 modifier = Modifier
                     //.background(Color.Pink)
-                    .width(100)
-                    .height(40)
+                    .height(100)
+                    .weight(1f)
             )
             Text(
                 text = "Login: $welcomeCount",
                 modifier = Modifier
                     //.background(Color.Magenta)
-                    .width(100)
-                    .height(40)
+                    .height(100)
+                    .weight(1f)
                     .clickable {
                         welcomeCount++
                     }
@@ -65,7 +65,6 @@ fun main() {
             )
             Button(
                 modifier = Modifier
-                    .background(Color.Red)
                     .width(100)
                     .height(40),
                 text = "Login",

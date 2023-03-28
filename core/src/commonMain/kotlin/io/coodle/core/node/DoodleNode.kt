@@ -62,15 +62,15 @@ abstract class DoodleNode {
             width = value.width
         }
 
-     var modifier: Modifier = Modifier
+     internal var modifier: Modifier = Modifier
         set(value) {
             field = value
             if (positionable != null) {
                 value.fold(Unit) { _, modifier ->
                     modifier.apply( this)
                 }
-                applyScroll()
-                view.rerender()
+                //applyScroll()
+                //view.rerender()
             }
         }
 
@@ -98,7 +98,7 @@ abstract class DoodleNode {
 
 
 
-    private var bounds = Rectangle(x, y, width, height)
+    protected var bounds = Rectangle(x, y, width, height)
     var positionable: PositionableContainer? = null
 
     /**
@@ -141,7 +141,7 @@ abstract class DoodleNode {
         }
     }
 
-    private fun applyBounds(container: View, modifier: Modifier) {
+    protected fun applyBounds(container: View, modifier: Modifier) {
         bounds = if (modifier.containAnyAlignment()) {
             container.bounds
         } else {
