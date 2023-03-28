@@ -33,42 +33,44 @@ fun main() {
         var welcomeCount by remember { mutableStateOf(0) }
 
 
-        Row(modifier = Modifier
+        Box(modifier = Modifier
             //.fillMaxWidth()
             .padding(15)
             .background(Color.Pink)
             .shadow(4)
         ) {
-            Text(
-                text = "Welcome here",
-                modifier = Modifier
-                    //.background(Color.Pink)
-                    .height(100)
-                    .weight(1f)
-            )
+
             Text(
                 text = "Login: $welcomeCount",
                 modifier = Modifier
-                    //.background(Color.Magenta)
-                    .height(100)
-                    .weight(1f)
+                    .background(Color.Red)
+                    .fillMaxHeight()
+                    .width(200)
+                    .padding(10)
                     .clickable {
                         welcomeCount++
                     }
             )
             Text(
-                text = "Continue",
+                text = "Welcome here",
                 modifier = Modifier
-                    //.background(Color.Red)
-                    .width(100)
-                    .height(40)
+                    .background(Color.Green)
+                    .padding(15)
+                    .matchParentSize()
             )
-            Button(
-                modifier = Modifier
-                    .width(100)
-                    .height(40),
-                text = "Login",
-            )
+//            Text(
+//                text = "Continue",
+//                modifier = Modifier
+//                    .background(Color.Black)
+//                    .width(100)
+//                    .height(40)
+//            )
+//            Button(
+//                modifier = Modifier
+//                    .width(100)
+//                    .height(40),
+//                text = "Login",
+//            )
         }
     }
 //    renderComposable(root = "roo"){

@@ -29,8 +29,8 @@ class WeightsImpl {
 
     private fun apply(eachWeight: Double, doodleViews: List<DoodleNode>, isRow: Boolean){
         doodleViews.forEach {
-            if (isRow) it.width = eachWeight * it.horizontalWeight
-            else it.height = eachWeight * it.verticalWeight
+            if (isRow) it.width = (eachWeight * it.horizontalWeight) - it.padding.horizontal
+            else it.height = (eachWeight * it.verticalWeight) - it.padding.vertical
         }
     }
     private fun getEachWeight(parentWidthOrHeight: Double): Double {

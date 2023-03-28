@@ -27,6 +27,21 @@ internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
         doodleViews.forEachIndexed { index, doodleNode ->
             positionableContainer.children[index].bounds = doodleNode.measure(0.0,0.0, positionableContainer)
         }
+        matchParentSize(parent, doodleViews)
+    }
+
+    private fun matchParentSize(parent: DoodleNode, doodleViews: MutableList<DoodleNode>){
+        val childrenWithMatchParent = doodleViews.filter {
+            (it.verticalWeight > 0f && it.horizontalWeight > 0f) &&
+                    (it.height == 0.0 && it.width == 0.0)
+        }
+        val boxSize = getSize(parent, doodleViews)
+        childrenWithMatchParent.forEach {
+            if (!boxSize.empty) {
+                it.width = boxSize.width - it.padding.horizontal
+                it.height = boxSize.height - it.padding.vertical
+            }
+        }
     }
 
     override fun getSize(node: DoodleNode, children: MutableList<DoodleNode>): Size {
@@ -39,6 +54,12 @@ internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
     override fun Modifier.align(alignment: Alignment): Modifier {
         return then(alignment)
     }
+
+    @Stable
+    override fun Modifier.matchParentSize(): Modifier {
+       return then(MatchParentSizeImpl())
+    }
+
     override fun debugInfo(): String {
         return "Box"
     }
@@ -51,4 +72,7 @@ interface BoxScope{
 
     @Stable
     fun Modifier.align(alignment: Alignment): Modifier
+
+    @Stable
+    fun Modifier.matchParentSize(): Modifier
 }

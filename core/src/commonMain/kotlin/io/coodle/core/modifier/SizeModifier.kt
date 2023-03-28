@@ -77,20 +77,23 @@ class SizeModifier(
     override fun apply(doodleNode: DoodleNode) {
         if (height != null && width != null){
             doodleNode.positionable?.let {
-                doodleNode.size = Size(width, height)
+                doodleNode.size = Size(
+                    width -  doodleNode.padding.horizontal,
+                    height - doodleNode.padding.vertical
+                )
                 doodleNode.fixedSize = true
             }
             return
         }
         height?.let {
             doodleNode.positionable?.let {
-                doodleNode.height = height.toDouble()
+                doodleNode.height = height.toDouble() - doodleNode.padding.vertical
                 doodleNode.fixedHeight = true
             }
         }
         width?.let {
             doodleNode.positionable?.let {
-                doodleNode.width = width.toDouble()
+                doodleNode.width = width.toDouble() - doodleNode.padding.horizontal
                 doodleNode.fixedWidth = true
             }
         }
