@@ -41,8 +41,8 @@ class WeightsImpl {
 
     private fun getParentWidthOrHeight(parent: DoodleNode, isRow: Boolean) =
         when{
-            isRow -> if (parent.fixedWidth) parent.width else parent.incomingSize.width
-            else -> if (parent.fixedHeight) parent.height else parent.incomingSize.height
+            isRow -> if (parent.fixedWidth) parent.width else parent.maxSize.width
+            else -> if (parent.fixedHeight) parent.height else parent.maxSize.height
         }
     private fun getWeightedChildren(doodleViews: MutableList<DoodleNode>, isRow: Boolean) =
         when{

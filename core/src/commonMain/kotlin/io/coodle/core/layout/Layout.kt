@@ -11,7 +11,7 @@ import io.nacular.doodle.geometry.Size
 
 
 @Composable
-internal fun Layout(
+fun Layout(
     modifier: Modifier = Modifier,
     measurement: LayoutMeasurement,
     content: @Composable () -> Unit
@@ -28,7 +28,7 @@ internal fun Layout(
 }
 
 @Composable
-internal fun Layout(
+fun Layout(
     view: View,
     modifier: Modifier = Modifier
 ){

@@ -1,11 +1,13 @@
 package io.coodle.core.node
 
+
 import io.nacular.doodle.application.Application
 import io.nacular.doodle.core.*
 import io.nacular.doodle.core.Layout.Companion.simpleLayout
 import io.nacular.doodle.theme.ThemeManager
 import io.nacular.doodle.theme.adhoc.DynamicTheme
 import io.nacular.doodle.utils.ObservableList
+import kotlinx.coroutines.*
 import org.kodein.di.bindings.NoArgBindingDI
 import org.kodein.di.instance
 
@@ -26,13 +28,13 @@ class RootNode: ContainerNode() {
     override val children: ObservableList<View> = view.children
 
 
-    fun getApplication(app: NoArgBindingDI<*>): Application {
-        println("Init app")
-        //TODO: to make this customizable
+    fun getApplication(scope: CoroutineScope, app: NoArgBindingDI<*>): Application {
+        // TODO: to make this customizable
         // Either remove ThemeManager and DynamicTheme for an extra design system on top of core
         val display: Display = app.instance()
         val manager: ThemeManager = app.instance()
         val theme: DynamicTheme = app.instance()
+
         return object : Application {
             init {
                 manager.selected = theme
@@ -40,7 +42,9 @@ class RootNode: ContainerNode() {
                 display += view
             }
 
-            override fun shutdown() {}
+            override fun shutdown() {
+                scope.cancel()
+            }
 
         }
     }

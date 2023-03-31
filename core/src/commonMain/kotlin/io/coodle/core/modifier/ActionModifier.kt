@@ -43,7 +43,7 @@ private class ClicksModifier(
     private fun onClick(node: DoodleNode, view: View, block: () -> Unit){
         view.pointerChanged += object: ClickModifier{
             override val doodleNode = node
-            override fun actionRelease() {
+            override fun actionClicked() {
                 block()
             }
         }
@@ -103,12 +103,7 @@ private class ClicksModifier(
         }
     }
 
-    override fun equals(other: Any?): Boolean {
-        val otherClicksModifier = other as ClicksModifier
-        return onClick == otherClicksModifier.onClick &&
-                doubleClick == otherClicksModifier.doubleClick &&
-                longClick == otherClicksModifier.longClick
-    }
+
 
     override fun hashCode(): Int {
         var result = onClick?.hashCode() ?: 0
@@ -116,6 +111,20 @@ private class ClicksModifier(
         result = 31 * result + (doubleClick?.hashCode() ?: 0)
         result = 31 * result + initialized.hashCode()
         return result
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as ClicksModifier
+
+        if (onClick != other.onClick) return false
+        if (longClick != other.longClick) return false
+        if (doubleClick != other.doubleClick) return false
+        if (initialized != other.initialized) return false
+
+        return true
     }
 }
 fun Modifier.clickable(block: () -> Unit): Modifier {
@@ -134,11 +143,19 @@ private interface ClickModifier: PointerListener{
     val doodleNode: DoodleNode
     fun actionPressed(){}
     fun actionRelease(){}
+    fun actionClicked(){}
     override fun pressed(event: PointerEvent) {
         if (event.consumed.not()){
             doodleNode.backgroundColorState = doodleNode.backgroundColorState.copy(isClicked = true)
             doodleNode.container.rerender()
             actionPressed()
+        }
+        event.consume()
+    }
+
+    override fun clicked(event: PointerEvent) {
+        if (event.consumed.not()){
+            actionClicked()
         }
         event.consume()
     }

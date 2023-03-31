@@ -2,7 +2,7 @@ package io.coodle.core.modifier
 
 import io.coodle.core.layout.Alignment
 
-internal fun Modifier.toList(): List<Modifier>{
+fun Modifier.toList(): List<Modifier>{
     return fold(mutableListOf()) { list, modifier ->
         list.add(modifier)
         list

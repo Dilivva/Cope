@@ -30,12 +30,12 @@ class ContainerNodeImpl(private val measurement: LayoutMeasurement) : ContainerN
        val calculatedSize = measurement.getSize(this, doodleChildren)
        size = when{
            calculatedSize.width == 0.0 && calculatedSize.height > 0 ->{
-               Size(width = incomingSize.width, calculatedSize.height)
+               Size(width = maxSize.width, calculatedSize.height)
            }
            calculatedSize.height == 0.0 && calculatedSize.width > 0 ->{
-               Size(calculatedSize.width, incomingSize.height)
+               Size(calculatedSize.width, maxSize.height)
            }
-           calculatedSize == Size.Empty -> incomingSize
+           calculatedSize == Size.Empty -> maxSize
            else -> calculatedSize
        }
     }

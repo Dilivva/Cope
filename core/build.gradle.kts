@@ -18,7 +18,13 @@ kotlin {
         }
     }
     js(IR) {
-        browser()
+        browser {
+            testTask {
+                useKarma {
+                    useFirefoxHeadless()
+                }
+            }
+        }
     }
     sourceSets {
         val commonMain by getting {
@@ -27,11 +33,13 @@ kotlin {
                 implementation(libs.doodle.theme)
                 implementation(compose.runtime)
                 implementation("org.kodein.di:kodein-di:7.0.0")
+                implementation(libs.kotlinx.coroutines)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+                implementation(kotlin("test"))
             }
         }
         val jvmMain by getting

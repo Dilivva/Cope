@@ -26,6 +26,7 @@ kotlin {
                 implementation(project(":core"))
                 implementation(libs.doodle.control)
                 implementation(compose.runtime)
+                implementation(libs.kotlinx.coroutines)
             }
         }
         val commonTest by getting {

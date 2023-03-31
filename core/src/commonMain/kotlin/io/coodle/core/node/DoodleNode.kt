@@ -12,11 +12,22 @@ import io.nacular.doodle.geometry.*
 import io.nacular.doodle.layout.constraints.constrain
 
 
+/**
+ * Doodle node
+ *
+ * @constructor Create empty Doodle node
+ */
 abstract class DoodleNode {
     var x = 0.0
     var y = 0.0
 
     var padding: Padding = Padding(0, 0, 0, 0)
+        set(value){
+            field = value
+            val tempSize = size
+            size = Size.Empty
+            size = tempSize
+        }
 
     abstract val view: View
     abstract val container: Container
@@ -27,6 +38,17 @@ abstract class DoodleNode {
     var fixedHeight = false
     var fixedWidth = false
 
+    var minWidth = 0.0
+        set(value) {
+            field = value
+            width = value
+        }
+    var minHeight = 0.0
+        set(value) {
+            field = value
+            height = value
+        }
+
     var fixedSize: Boolean = false
         set(value) {
             field = value
@@ -36,31 +58,28 @@ abstract class DoodleNode {
 
     var width = 0.0
         set(value) {
-            if (value != field) {
-                view.width = value
-                container.width = value + padding.horizontal
-                field = container.width
-            }
+            setWidthOrHeight(value, field, false)
+            field = container.width
         }
+
+
+
     var height = 0.0
         set(value) {
-            if (value != field) {
-                view.height = value
-                container.height = value + padding.vertical
-                field = container.height
-            }
+            setWidthOrHeight(value, field, true)
+            field = container.height
         }
 
     var radius = 0.0
-
     var border: Border? = null
 
-    var size = Size(width, height)
+    var size = Size.Empty
         set(value) {
             field = value
             height = value.height
             width = value.width
         }
+        get() = Size(width, height)
 
      internal var modifier: Modifier = Modifier
         set(value) {
@@ -85,10 +104,10 @@ abstract class DoodleNode {
         }
 
     internal var backgroundColorState = BackgroundColorState()
-    internal val incomingSize: Size
+    val maxSize: Size
         get() {
             return if (positionable != null){
-                Size(positionable!!.width - padding.horizontal, positionable!!.height - padding.vertical)
+                Size(positionable!!.width, positionable!!.height)
             }else{
                 Size(0.0, 0.0)
             }
@@ -116,6 +135,48 @@ abstract class DoodleNode {
         this.y = y
         applyBounds(container, modifier)
         return bounds
+    }
+
+
+    /**
+     * Calculates Width or Height
+     * Pads outward (Margin) if the following conditions are true:
+     * 1. Width or Height minus padding greater than minHeight or minWidth
+     * 2. MinHeight or MinWidth plus padding is greater than MaxSize
+     * else it pads inward
+     * padding has to be set before the size
+     *
+     * @param value
+     * @param field
+     * @param isHeight
+     */
+    @Suppress("Duplicates")
+    private fun setWidthOrHeight(value: Double, field: Double, isHeight: Boolean) {
+        when{
+            isHeight && value != field ->{
+                val withoutPadding = value - padding.vertical
+                if (withoutPadding > minHeight) {
+                    view.height = value - padding.vertical
+                    container.height = value
+                } else {
+                    view.height = minHeight
+                    val minHeightAndPadding = minHeight + padding.vertical
+                    container.height = if (maxSize.height > minHeightAndPadding) minHeightAndPadding else minHeight
+                }
+            }
+            !isHeight && value != field ->{
+                val withoutPadding = value - padding.horizontal
+                if (withoutPadding > minWidth) {
+                    view.width = value - padding.horizontal
+                    container.width = value
+                } else {
+                    view.width = minWidth
+                    val minWidthAndPadding = minWidth + padding.horizontal
+                    container.width = if (maxSize.width > minWidthAndPadding) minWidthAndPadding else minWidth
+                }
+            }
+        }
+
     }
 
     protected fun containerLayout(view: View) = constrain(view) {
@@ -148,5 +209,7 @@ abstract class DoodleNode {
             Rectangle(x, y, container.width, container.height)
         }
     }
-
+    private fun Double.isPositive(): Boolean{
+        return this >= 0
+    }
 }

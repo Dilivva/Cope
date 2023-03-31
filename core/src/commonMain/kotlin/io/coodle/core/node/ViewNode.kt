@@ -8,6 +8,7 @@ class ViewNode(
     override var view: View
 ): DoodleNode(){
 
+
     override var container = container {
         children += view
         render = {
