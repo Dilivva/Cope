@@ -18,10 +18,10 @@ import org.kodein.di.bindings.NoArgBindingDI
 actual fun initComposeContent(
     rootNode: RootNode,
     themesAndControl: List<DI.Module>,
+    monotonicFrameClock: MonotonicFrameClock,
     content: @Composable () -> Unit
 ): Composition {
     GlobalSnapshotManager.ensureStarted()
-    val monotonicFrameClock: MonotonicFrameClock = DefaultMonotonicFrameClock
 
     val context = monotonicFrameClock + JsMicrotasksDispatcher()
     val recomposer = Recomposer(context)
@@ -43,3 +43,4 @@ actual fun app(themesAndControl: List<DI.Module>, block: (NoArgBindingDI<*>) -> 
         block(this)
     }
 }
+actual val monotonicFrameClock: MonotonicFrameClock = DefaultMonotonicFrameClock

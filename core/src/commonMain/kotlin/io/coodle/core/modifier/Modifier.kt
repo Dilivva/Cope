@@ -5,20 +5,39 @@ import io.coodle.core.node.DoodleNode
 
 
 /**
- * Add extra attributes and features to views
+ * Modifier
+ *
+ * @constructor Create empty Modifier
  */
 @Stable
 interface Modifier {
+    /**
+     * Fold
+     *
+     * @param acc
+     * @param operation
+     * @param R
+     * @return
+     * @receiver
+     */
     fun <R> fold(acc: R, operation: (R, Modifier) -> R): R =
         operation(acc, this)
 
     /**
+     * Apply
      *
+     * @param doodleNode
      */
     fun apply(
         doodleNode: DoodleNode,
     ){}
 
+    /**
+     * Then
+     *
+     * @param modifier
+     * @return
+     */
     fun then(modifier: Modifier): Modifier {
         return if (modifier === this) this else CombinedModifier(this, modifier)
     }

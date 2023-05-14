@@ -45,14 +45,14 @@ fun layout(block: (List<DoodleNode>, PositionableContainer) -> Size): LayoutMeas
     var size = Size.Empty
     return object: LayoutMeasurement{
         override fun layout(
-            doodleViews: MutableList<DoodleNode>,
+            doodleViews: List<DoodleNode>,
             positionableContainer: PositionableContainer,
             parent: DoodleNode
         ) {
             size = block(doodleViews, positionableContainer)
         }
 
-        override fun getSize(node: DoodleNode, children: MutableList<DoodleNode>): Size {
+        override fun getSize(parent: DoodleNode, children: List<DoodleNode>): Size {
             return size
         }
 

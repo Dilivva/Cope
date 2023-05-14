@@ -14,6 +14,9 @@ import io.nacular.doodle.layout.constraints.constrain
 
 /**
  * Doodle node
+ * This the base node in the composition which holds
+ * the view and its attributes (Modifiers).
+ * It is extended by the [ContainerNode] and every [ViewNode].
  *
  * @constructor Create empty Doodle node
  */
@@ -29,8 +32,24 @@ abstract class DoodleNode {
             size = tempSize
         }
 
+
+    /** This the Doodle [View] that gets drawn on the screen.
+     * Only few modifiers are applied to this object such as [DrawingModifier],
+     * [ClicksModifier].
+     */
     abstract val view: View
+
+
+    /** Container around the [View].
+     * This basically handles sizing, positioning, and padding around
+     * the child view.
+     * Due to some constraint on Doodle, only a parent view can apply padding
+     * effect on a child view using a layout
+     *
+     * You won't really have to use this object directly.
+     */
     abstract val container: Container
+
 
     internal var horizontalWeight: Float = 0f
     internal var verticalWeight: Float = 0f
@@ -62,8 +81,6 @@ abstract class DoodleNode {
             field = container.width
         }
 
-
-
     var height = 0.0
         set(value) {
             setWidthOrHeight(value, field, true)
@@ -81,6 +98,12 @@ abstract class DoodleNode {
         }
         get() = Size(width, height)
 
+    /** Each composable Modifier
+     *  It only applies the modification to the view
+     *  if there's a size that the Size Modifiers can use
+     *
+     *  Note: the setValue is called many times by the Composition
+     */
      internal var modifier: Modifier = Modifier
         set(value) {
             field = value
@@ -125,7 +148,6 @@ abstract class DoodleNode {
      * 1. Sets the layout container [PositionableContainer] size
      * 2. apply the Modifiers: measuring
      * 3. apply placement
-     *
      */
     open fun measure(x: Double, y: Double, positionable: PositionableContainer): Rectangle{
         this.positionable = positionable
@@ -145,7 +167,7 @@ abstract class DoodleNode {
      * 2. MinHeight or MinWidth plus padding is greater than MaxSize
      * else it pads inward
      * padding has to be set before the size
-     *
+     * (To be re-written)
      * @param value
      * @param field
      * @param isHeight

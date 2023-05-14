@@ -34,7 +34,7 @@ fun setContent(
         val textMetrics: TextMetrics = it.instance()
         val fontLoader: FontLoader = it.instance()
         loadFonts(fontLoader)
-        val composition = initComposeContent(rootNode, themesAndControl, content)
+        val composition = initComposeContent(rootNode, themesAndControl, monotonicFrameClock, content)
 
         composition.setContent {
             CompositionLocalProvider(
@@ -64,7 +64,9 @@ private fun loadFonts(fontLoader: FontLoader) {
 expect fun initComposeContent(
     rootNode: RootNode,
     themesAndControl: List<DI.Module>,
+    monotonicFrameClock: MonotonicFrameClock,
     content: @Composable () -> Unit
 ): Composition
 
 expect fun app(themesAndControl: List<DI.Module>, block: (NoArgBindingDI<*>) -> Application)
+expect val monotonicFrameClock: MonotonicFrameClock

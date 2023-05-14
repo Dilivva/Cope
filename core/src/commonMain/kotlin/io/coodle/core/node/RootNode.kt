@@ -37,6 +37,7 @@ class RootNode: ContainerNode() {
 
         return object : Application {
             init {
+                println("App init")
                 manager.selected = theme
                 view.size = display.size
                 display += view

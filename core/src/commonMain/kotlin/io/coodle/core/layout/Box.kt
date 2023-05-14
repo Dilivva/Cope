@@ -20,7 +20,7 @@ fun Box(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit)
 internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
 
     override fun layout(
-        doodleViews: MutableList<DoodleNode>,
+        doodleViews: List<DoodleNode>,
         positionableContainer: PositionableContainer,
         parent: DoodleNode
     ) {
@@ -30,7 +30,7 @@ internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
         matchParentSize(parent, doodleViews)
     }
 
-    private fun matchParentSize(parent: DoodleNode, doodleViews: MutableList<DoodleNode>){
+    private fun matchParentSize(parent: DoodleNode, doodleViews: List<DoodleNode>){
         val childrenWithMatchParent = doodleViews.filter {
             (it.verticalWeight > 0f && it.horizontalWeight > 0f) &&
                     (it.height == 0.0 && it.width == 0.0)
@@ -44,9 +44,9 @@ internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
         }
     }
 
-    override fun getSize(node: DoodleNode, children: MutableList<DoodleNode>): Size {
-        val height = if (node.fixedHeight) node.height else children.maxOf { it.height }
-        val width = if (node.fixedWidth) node.width else children.maxOf { it.width }
+    override fun getSize(parent: DoodleNode, children: List<DoodleNode>): Size {
+        val height = if (parent.fixedHeight) parent.height else children.maxOf { it.height }
+        val width = if (parent.fixedWidth) parent.width else children.maxOf { it.width }
         return Size(width, height)
     }
 

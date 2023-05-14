@@ -30,7 +30,7 @@ internal class RowScopeInstance: LayoutMeasurement, RowScope{
     private val weightsImpl  =  WeightsImpl()
 
     override fun layout(
-        doodleViews: MutableList<DoodleNode>,
+        doodleViews: List<DoodleNode>,
         positionableContainer: PositionableContainer,
         parent: DoodleNode
     ) {
@@ -46,9 +46,9 @@ internal class RowScopeInstance: LayoutMeasurement, RowScope{
         )
         weightsImpl.applyWeightsForRowOrColumn(doodleViews, parent, true)
     }
-    override fun getSize(node: DoodleNode, children: MutableList<DoodleNode>): Size {
-        val height = if (node.fixedHeight) node.height else children.maxOf { it.height }
-        val width = if (node.fixedWidth) node.width else children.sumOf { it.width }
+    override fun getSize(parent: DoodleNode, children: List<DoodleNode>): Size {
+        val height = if (parent.fixedHeight) parent.height else children.maxOf { it.height }
+        val width = if (parent.fixedWidth) parent.width else children.sumOf { it.width }
         return Size(width, height)
     }
 

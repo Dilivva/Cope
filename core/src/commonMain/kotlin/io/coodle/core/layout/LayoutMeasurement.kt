@@ -8,12 +8,12 @@ import io.nacular.doodle.geometry.Size
 interface LayoutMeasurement {
 
     fun layout(
-        doodleViews: MutableList<DoodleNode>,
+        doodleViews: List<DoodleNode>,
         positionableContainer: PositionableContainer,
         parent: DoodleNode
     )
 
-    fun getSize(node: DoodleNode, children: MutableList<DoodleNode>): Size
+    fun getSize(parent: DoodleNode, children: List<DoodleNode>): Size
 
     fun debugInfo(): String
 

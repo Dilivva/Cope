@@ -15,7 +15,7 @@ class WeightsImpl {
     }
 
     fun applyWeightsForRowOrColumn(
-        doodleViews: MutableList<DoodleNode>,
+        doodleViews: List<DoodleNode>,
         parent: DoodleNode,
         isRow: Boolean
     ){
@@ -44,12 +44,12 @@ class WeightsImpl {
             isRow -> if (parent.fixedWidth) parent.width else parent.maxSize.width
             else -> if (parent.fixedHeight) parent.height else parent.maxSize.height
         }
-    private fun getWeightedChildren(doodleViews: MutableList<DoodleNode>, isRow: Boolean) =
+    private fun getWeightedChildren(doodleViews: List<DoodleNode>, isRow: Boolean) =
         when{
             isRow -> doodleViews.filter { it.horizontalWeight > 0f  }
             else -> doodleViews.filter { it.verticalWeight > 0f }
         }
-    private fun canApplyWeight(doodleViews: MutableList<DoodleNode>): Boolean{
+    private fun canApplyWeight(doodleViews: List<DoodleNode>): Boolean{
         return weights != 0f &&
                 totalMeasured != 0.0 &&
                 (doodleViews.any { it.horizontalWeight > 0f && it.width == 0.0 }||

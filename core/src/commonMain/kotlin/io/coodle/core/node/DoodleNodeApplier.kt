@@ -2,11 +2,11 @@ package io.coodle.core.node
 
 import androidx.compose.runtime.AbstractApplier
 
-class DoodleNodeApplier(root: RootNode) : AbstractApplier<DoodleNode>(root) {
+class DoodleNodeApplier(root: ContainerNode) : AbstractApplier<DoodleNode>(root) {
 
     override fun insertBottomUp(index: Int, instance: DoodleNode) {
         val containerNode = current as ContainerNode
-        containerNode.insertTopDown(index, instance)
+        containerNode.insertBottomUp(index, instance)
     }
 
     override fun insertTopDown(index: Int, instance: DoodleNode) {}

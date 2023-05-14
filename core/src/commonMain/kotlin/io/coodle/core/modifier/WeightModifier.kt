@@ -1,7 +1,6 @@
 package io.coodle.core.modifier
 
 import io.coodle.core.node.DoodleNode
-import io.nacular.doodle.geometry.Size
 
 class WeightModifier(
     private val height: Float? = null,
@@ -26,8 +25,7 @@ class WeightModifier(
         other as WeightModifier
 
         if (height != other.height) return false
-        if (width != other.width) return false
-        return true
+        return width == other.width
     }
 
     override fun hashCode(): Int {

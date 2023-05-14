@@ -4,10 +4,8 @@ plugins {
     alias(libs.plugins.compose)
 }
 
-group = "io.coodle.core"
-version = "0.0.1-SNAPSHOT"
-
 kotlin {
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
@@ -25,6 +23,7 @@ kotlin {
                 }
             }
         }
+        binaries.executable()
     }
     sourceSets {
         val commonMain by getting {
@@ -38,21 +37,20 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
                 implementation(kotlin("test"))
             }
         }
-        val jvmMain by getting
+        val jvmMain by getting{
+            dependsOn(commonMain)
+        }
+
         val jvmTest by getting
         val jsMain by getting {
-            dependsOn(commonMain)
             dependencies {
                 implementation(libs.doodle.browser)
                 implementation(compose.web.core)
             }
         }
-        val jsTest by getting{
-            dependsOn(commonTest)
-        }
+        val jsTest by getting
     }
 }

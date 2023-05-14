@@ -18,7 +18,7 @@ abstract class ContainerNode : DoodleNode() {
         doodleChildren.remove(index, count)
     }
 
-    fun insertTopDown(index: Int, instance: DoodleNode) {
+    fun insertBottomUp(index: Int, instance: DoodleNode) {
         children.add(index, instance.container)
         doodleChildren.add(index, instance)
     }

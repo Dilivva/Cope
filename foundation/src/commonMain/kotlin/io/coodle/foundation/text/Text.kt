@@ -82,7 +82,7 @@ fun BasicText(
         val tempFont = fontFamily ?: LocalFont.current
         var font by remember(tempFont) {  mutableStateOf(tempFont) }
         LaunchedEffect(tempFont){
-            //This recompose the whole composable. Not cool
+            //This recomposes the whole composable. Not cool
             font = fontLoader.loadFont(tempFont,fontWeight, fontSize, fontStyle)
         }
         TextStyle(
