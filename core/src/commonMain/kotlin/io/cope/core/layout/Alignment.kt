@@ -7,7 +7,7 @@ import io.nacular.doodle.geometry.Rectangle
 
 interface Alignment: Modifier {
 
-    fun align(parent: PositionableContainer, doodleNode: DoodleNode): io.cope.core.layout.AlignmentPosition
+    fun align(parent: PositionableContainer, doodleNode: DoodleNode): AlignmentPosition
 
     fun alignEnd(parent: PositionableContainer, doodleNode: DoodleNode): Double {
         val parentEnd = parent.width
@@ -25,7 +25,7 @@ interface Alignment: Modifier {
 
 
     companion object{
-        val TopStart: io.cope.core.layout.Alignment = object: io.cope.core.layout.Alignment {
+        val TopStart: Alignment = object: Alignment {
             override fun align(
                 parent: PositionableContainer,
                 doodleNode: DoodleNode

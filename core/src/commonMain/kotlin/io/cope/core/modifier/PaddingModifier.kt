@@ -20,6 +20,22 @@ data class Padding(
         doodleNode: DoodleNode
     ) {
         doodleNode.padding = this
+        applyPadding(doodleNode)
+    }
+
+    private fun applyPadding(doodleNode: DoodleNode){
+        if (vertical != 0 && doodleNode.fixedHeight){
+            val childSize = doodleNode.height - vertical
+            println("Height: $childSize, Fixed: ${doodleNode.height}")
+            doodleNode.view.height = if (childSize > 0) childSize else 0.0
+            doodleNode.container.height = doodleNode.height
+        }
+        if (horizontal != 0 && doodleNode.fixedWidth){
+            val childSize = doodleNode.width - horizontal
+            println("Height: $childSize, Fixed: ${doodleNode.width}")
+            doodleNode.view.width = if (childSize > 0) childSize else 0.0
+            doodleNode.container.width = doodleNode.width
+        }
     }
 
     override fun equals(other: Any?): Boolean {
