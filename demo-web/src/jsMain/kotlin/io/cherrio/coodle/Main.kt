@@ -1,18 +1,15 @@
 package io.cherrio.coodle
 
 import androidx.compose.runtime.*
-import io.coodle.core.content.setContent
-import io.coodle.core.layout.Alignment
-import io.coodle.core.layout.Box
-import io.coodle.core.layout.Column
-import io.coodle.core.layout.Row
-import io.coodle.core.modifier.*
-import io.coodle.foundation.button.Button
-import io.coodle.foundation.text.Text
-import io.coodle.foundation.textfield.TextField
+import io.cope.core.layout.Box
+import io.cope.core.layout.Column
+import io.cope.core.layout.Row
+import io.cope.core.modifier.*
+import io.cope.foundation.button.Button
+import io.cope.foundation.text.Text
+import io.cope.foundation.textfield.TextField
 import io.nacular.doodle.application.Modules
 import io.nacular.doodle.drawing.Color
-import io.nacular.doodle.drawing.TextMetrics
 
 import io.nacular.doodle.theme.basic.BasicTheme
 import io.nacular.doodle.theme.native.NativeTheme
@@ -31,25 +28,24 @@ fun main() {
     val controls = listOf(Modules.PointerModule, Modules.ImageModule, Modules.FontModule)
     val allModules = themes + controls
 
-    setContent(allModules) {
+    io.cope.core.content.setContent(allModules) {
         var welcomeCount by remember { mutableStateOf(0) }
 
 
-        Box(modifier = Modifier
-            //.fillMaxWidth()
-            .padding(15)
-            .background(Color.Black)
-            .fillMaxSize()
-            .shadow(4)
+        Box(
+            modifier = Modifier
+                //.fillMaxWidth()
+                .padding(15)
+                .background(Color.Black)
+                .fillMaxSize()
+                .shadow(4)
         ) {
 
             Text(
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  $welcomeCount",
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable {
-                        welcomeCount++
-                    }
+
             )
 //            Text(
 //                text = "Welcome Home",
@@ -66,12 +62,17 @@ fun main() {
 //                    .width(100)
 //                    .height(40)
 //            )
-//            Button(
-//                modifier = Modifier
-//                    .width(100)
-//                    .height(40),
-//                text = "Login",
-//            )
+            Button(
+                modifier = Modifier
+                    .padding(10)
+                    .align(io.cope.core.layout.Alignment.BottomCenter)
+                    .width(200)
+                    .height(50)
+                    .clickable {
+                        welcomeCount++
+                    },
+                text = "Login here",
+            )
         }
     }
 //    renderComposable(root = "roo"){
@@ -101,7 +102,7 @@ fun LoginScreen2() {
                 .background(Color.Orange)
                 //.clip(RoundedCorner(15))
                 .border(Color.Blue, 3.0, RoundedCorner(15))
-                .align(Alignment.Center)
+                .align(io.cope.core.layout.Alignment.Center)
         ) {
             Column(modifier = Modifier
                 //.fillMaxWidth()
