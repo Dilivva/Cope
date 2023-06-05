@@ -6,16 +6,16 @@ import io.cope.core.node.DoodleNode
 import io.nacular.doodle.geometry.Size
 
 
-object FillMaxSize: Modifier {
+object FillMaxSize: LayoutModifier {
     override fun apply(
         doodleNode: DoodleNode
     ) {
         doodleNode.positionable?.let {
             if (it.width > 0 && it.height > 0) {
-                val width = it.width
-                val height = it.height
-                doodleNode.size = Size(width, height)
+                val size = Size(it.width, it.height)
+                doodleNode.size = applyPadding(doodleNode, size)
                 doodleNode.fixedSize = true
+
             }
         }
     }
@@ -26,13 +26,16 @@ object FillMaxSize: Modifier {
     }
 }
 
-class FillMaxWidth(private val fraction: Int): Modifier {
+class FillMaxWidth(private val fraction: Int): LayoutModifier {
 
     override fun apply(
         doodleNode: DoodleNode
     ) {
         doodleNode.positionable?.let {
-            if (it.width > 0) doodleNode.width = it.width / fraction
+            if (it.width > 0) {
+                val width = it.width / fraction
+                doodleNode.width = applyPaddingHorizontal(doodleNode, width)
+            }
             doodleNode.fixedWidth = true
         }
     }
@@ -51,13 +54,16 @@ class FillMaxWidth(private val fraction: Int): Modifier {
     }
 
 }
-class FillMaxHeight(private val fraction: Int): Modifier {
+class FillMaxHeight(private val fraction: Int): LayoutModifier {
 
     override fun apply(
         doodleNode: DoodleNode
     ) {
         doodleNode.positionable?.let {
-            if (it.height > 0) doodleNode.height = it.height / fraction
+            if (it.height > 0) {
+                val height = it.height / fraction
+                doodleNode.height = applyPaddingVertical(doodleNode, height)
+            }
             doodleNode.fixedHeight = true
         }
     }
@@ -77,18 +83,18 @@ class SizeModifier(
     private val width: Int? = null,
     private val minWidth: Int? = null,
     private val minHeight: Int? = null
-): Modifier{
+): LayoutModifier{
 
     override fun apply(doodleNode: DoodleNode) {
         height?.let {
             doodleNode.positionable?.let {
-                doodleNode.height = height.toDouble()
+                doodleNode.height = applyPaddingVertical(doodleNode, height.toDouble())
                 doodleNode.fixedHeight = true
             }
         }
         width?.let {
             doodleNode.positionable?.let {
-                doodleNode.width = width.toDouble()
+                doodleNode.width = applyPaddingHorizontal(doodleNode, width.toDouble())
                 doodleNode.fixedWidth = true
             }
         }

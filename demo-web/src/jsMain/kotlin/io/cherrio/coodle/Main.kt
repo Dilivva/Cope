@@ -1,6 +1,8 @@
 package io.cherrio.coodle
 
 import androidx.compose.runtime.*
+import io.cope.core.content.setContent
+import io.cope.core.layout.Alignment
 import io.cope.core.layout.Box
 import io.cope.core.layout.Column
 import io.cope.core.layout.Row
@@ -28,28 +30,32 @@ fun main() {
     val controls = listOf(Modules.PointerModule, Modules.ImageModule, Modules.FontModule)
     val allModules = themes + controls
 
-    io.cope.core.content.setContent(allModules) {
+    setContent(allModules) {
         var welcomeCount by remember { mutableStateOf(0) }
 
 
         Box(
             modifier = Modifier
                 //.fillMaxWidth()
-                .padding(15)
                 .background(Color.Black)
                 .fillMaxSize()
+                .padding(15)
                 .shadow(4)
         ) {
 
-            Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  $welcomeCount",
-                modifier = Modifier
-                    .fillMaxSize()
-
-            )
+//            Text(
+//                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  $welcomeCount",
+//                modifier = Modifier
+//                    .padding(15)
+//                    .fillMaxWidth()
+//                    .height(100)
+//
+//
+//            )
 //            Text(
 //                text = "Welcome Home",
 //                modifier = Modifier
+//                    .align(Alignment.Center)
 //                    .background(Color.Green)
 //                    .padding(15)
 //                    .width(200)
@@ -64,10 +70,9 @@ fun main() {
 //            )
             Button(
                 modifier = Modifier
-                    .padding(10)
-                    .align(io.cope.core.layout.Alignment.BottomCenter)
-                    .width(200)
                     .height(50)
+                    .width(200)
+                    .padding(10)
                     .clickable {
                         welcomeCount++
                     },

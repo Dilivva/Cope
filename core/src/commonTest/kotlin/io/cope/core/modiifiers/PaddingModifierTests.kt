@@ -2,6 +2,7 @@ package io.cope.core.modiifiers
 
 import io.cope.core.modifier.Modifier
 import io.cope.core.modifier.padding
+import io.cope.core.modifier.size
 import io.cope.core.node.DoodleNode
 import io.nacular.doodle.core.*
 import io.nacular.doodle.geometry.Size
@@ -46,8 +47,7 @@ class PaddingModifierTests {
 
     @Test
     fun child_shouldPad_all(){
-        doodleNode.size = Size(100, 100)
-        val modifier = Modifier.padding(all = 10)
+        val modifier = Modifier.size(100).padding(all = 10)
         modifier.fold(Unit) { _, mod ->
             mod.apply(doodleNode)
         }
@@ -59,8 +59,7 @@ class PaddingModifierTests {
 
     @Test
     fun child_shouldPad_top(){
-        doodleNode.size = Size(100, 100)
-        val modifier = Modifier.padding(top = 10)
+        val modifier = Modifier.size(100).padding(top = 10)
         modifier.fold(Unit) { _, mod ->
             mod.apply(doodleNode)
         }
@@ -72,8 +71,7 @@ class PaddingModifierTests {
 
     @Test
     fun child_shouldPad_bottom(){
-        doodleNode.size = Size(100, 100)
-        val modifier = Modifier.padding(bottom = 10)
+        val modifier = Modifier.size(100).padding(bottom = 10)
         modifier.fold(Unit) { _, mod ->
             mod.apply(doodleNode)
         }
@@ -84,8 +82,7 @@ class PaddingModifierTests {
     }
     @Test
     fun child_shouldPad_left(){
-        doodleNode.size = Size(100, 100)
-        val modifier = Modifier.padding(left = 10)
+        val modifier = Modifier.size(100).padding(left = 10)
         modifier.fold(Unit) { _, mod ->
             mod.apply(doodleNode)
         }
@@ -96,8 +93,7 @@ class PaddingModifierTests {
     }
     @Test
     fun child_shouldPad_right(){
-        doodleNode.size = Size(100, 100)
-        val modifier = Modifier.padding(right = 10)
+        val modifier = Modifier.size(100).padding(right = 10)
         modifier.fold(Unit) { _, mod ->
             mod.apply(doodleNode)
         }
@@ -109,8 +105,7 @@ class PaddingModifierTests {
 
     @Test
     fun child_shouldPad_vertical() {
-        doodleNode.size = Size(100, 100)
-        val modifier = Modifier.padding(vertical = 20)
+        val modifier = Modifier.size(100).padding(vertical = 20)
         modifier.fold(Unit) { _, mod ->
             mod.apply(doodleNode)
         }
@@ -122,8 +117,7 @@ class PaddingModifierTests {
 
     @Test
     fun child_shouldPad_horizontal() {
-        doodleNode.size = Size(100, 100)
-        val modifier = Modifier.padding(horizontal = 10)
+        val modifier = Modifier.size(100).padding(horizontal = 10)
         modifier.fold(Unit) { _, mod ->
             mod.apply(doodleNode)
         }

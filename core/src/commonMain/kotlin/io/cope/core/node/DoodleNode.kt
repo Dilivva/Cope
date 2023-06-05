@@ -23,12 +23,6 @@ abstract class DoodleNode {
     var y = 0.0
 
     var padding: Padding = Padding(0, 0, 0, 0)
-        set(value){
-            field = value
-            val tempSize = size
-            size = Size.Empty
-            size = tempSize
-        }
 
 
     /** This the Doodle [View] that gets drawn on the screen.
@@ -74,16 +68,8 @@ abstract class DoodleNode {
         }
 
     var width = 0.0
-        set(value) {
-            setWidthOrHeight(value, field, false)
-            field = container.width
-        }
 
     var height = 0.0
-        set(value) {
-            setWidthOrHeight(value, field, true)
-            field = container.height
-        }
 
     var radius = 0.0
     var border: Border? = null
@@ -158,46 +144,7 @@ abstract class DoodleNode {
     }
 
 
-    /**
-     * Calculates Width or Height
-     * Pads outward (Margin) if the following conditions are true:
-     * 1. Width or Height minus padding greater than minHeight or minWidth
-     * 2. MinHeight or MinWidth plus padding is greater than MaxSize
-     * else it pads inward
-     * padding has to be set before the size
-     * (To be re-written)
-     * @param value
-     * @param field
-     * @param isHeight
-     */
-    @Suppress("Duplicates")
-    private fun setWidthOrHeight(value: Double, field: Double, isHeight: Boolean) {
-        when{
-            isHeight && value != field ->{
-                val withoutPadding = value - padding.vertical
-                if (withoutPadding > minHeight) {
-                    view.height = value - padding.vertical
-                    container.height = value
-                } else {
-                    view.height = minHeight
-                    val minHeightAndPadding = minHeight + padding.vertical
-                    container.height = if (maxSize.height > minHeightAndPadding) minHeightAndPadding else minHeight
-                }
-            }
-            !isHeight && value != field ->{
-                val withoutPadding = value - padding.horizontal
-                if (withoutPadding > minWidth) {
-                    view.width = value - padding.horizontal
-                    container.width = value
-                } else {
-                    view.width = minWidth
-                    val minWidthAndPadding = minWidth + padding.horizontal
-                    container.width = if (maxSize.width > minWidthAndPadding) minWidthAndPadding else minWidth
-                }
-            }
-        }
 
-    }
 
     protected fun containerLayout(view: View) = constrain(view) {
         it.top eq padding.top
