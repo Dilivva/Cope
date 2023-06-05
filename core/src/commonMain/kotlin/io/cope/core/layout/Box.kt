@@ -51,7 +51,7 @@ internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
     }
 
     @Stable
-    override fun Modifier.align(alignment: io.cope.core.layout.Alignment): Modifier {
+    override fun Modifier.align(alignment: Alignment): Modifier {
         return then(alignment)
     }
 
@@ -71,7 +71,7 @@ internal class BoxScopeInstance: LayoutMeasurement, BoxScope{
 interface BoxScope{
 
     @Stable
-    fun Modifier.align(alignment: io.cope.core.layout.Alignment): Modifier
+    fun Modifier.align(alignment: Alignment): Modifier
 
     @Stable
     fun Modifier.matchParentSize(): Modifier
