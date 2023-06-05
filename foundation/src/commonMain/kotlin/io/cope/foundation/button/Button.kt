@@ -1,6 +1,7 @@
 package io.cope.foundation.button
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import io.cope.core.layout.Layout
 import io.cope.core.modifier.Modifier
 import io.nacular.doodle.controls.buttons.PushButton
@@ -17,6 +18,10 @@ fun Button(
     text: String,
     textColor: Color = Color.Red
 ){
+    LaunchedEffect(Unit){
+        println("Recomposed")
+    }
+
     val button = PushButton().apply {
         this.text = text
         foregroundColor = textColor
