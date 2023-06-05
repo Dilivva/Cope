@@ -43,15 +43,16 @@ fun main() {
                 .shadow(4)
         ) {
 
-//            Text(
-//                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  $welcomeCount",
-//                modifier = Modifier
-//                    .padding(15)
-//                    .fillMaxWidth()
-//                    .height(100)
-//
-//
-//            )
+            Text(
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  $welcomeCount",
+                modifier = Modifier
+                    .padding(15)
+                    .fillMaxWidth()
+                    .height(100)
+                    .align(Alignment.TopStart)
+
+
+            )
 //            Text(
 //                text = "Welcome Home",
 //                modifier = Modifier
@@ -70,9 +71,10 @@ fun main() {
 //            )
             Button(
                 modifier = Modifier
+                    .padding(10)
                     .height(50)
                     .width(200)
-                    .padding(10)
+                    .align(Alignment.Center)
                     .clickable {
                         welcomeCount++
                     },

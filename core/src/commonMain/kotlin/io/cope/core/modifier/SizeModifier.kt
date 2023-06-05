@@ -40,17 +40,23 @@ class FillMaxWidth(private val fraction: Int): LayoutModifier {
         }
     }
 
+
+
+    override fun toString(): String {
+        return "FillMaxSize"
+    }
+
     override fun equals(other: Any?): Boolean {
-        val otherFill = other as FillMaxWidth
-        return this.fraction == otherFill.fraction
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as FillMaxWidth
+
+        return fraction == other.fraction
     }
 
     override fun hashCode(): Int {
         return fraction
-    }
-
-    override fun toString(): String {
-        return "FillMaxSize"
     }
 
 }
@@ -69,13 +75,19 @@ class FillMaxHeight(private val fraction: Int): LayoutModifier {
     }
 
     override fun equals(other: Any?): Boolean {
-        val otherFill = other as FillMaxHeight
-        return this.fraction == otherFill.fraction
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as FillMaxHeight
+
+        return fraction == other.fraction
     }
 
     override fun hashCode(): Int {
         return fraction
     }
+
+
 }
 
 class SizeModifier(
@@ -131,9 +143,7 @@ class SizeModifier(
         if (height != other.height) return false
         if (width != other.width) return false
         if (minWidth != other.minWidth) return false
-        if (minHeight != other.minHeight) return false
-
-        return true
+        return minHeight == other.minHeight
     }
 
 
