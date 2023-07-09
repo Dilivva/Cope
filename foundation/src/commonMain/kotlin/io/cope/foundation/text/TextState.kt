@@ -12,5 +12,8 @@ import io.nacular.doodle.text.StyledText
 internal data class TextState(
     val styledText: StyledText,
     val wrapWords: Boolean,
-    val textAlign: TextAlign
+    val textAlign: TextAlign,
+    val letterSpacing: Double,
+    val lineHeight: Float,
+    val fontFamily: FontFamily?
 )

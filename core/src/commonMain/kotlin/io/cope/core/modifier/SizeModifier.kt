@@ -4,6 +4,7 @@ package io.cope.core.modifier
 import androidx.compose.runtime.Stable
 import io.cope.core.node.DoodleNode
 import io.nacular.doodle.geometry.Size
+import kotlin.math.roundToInt
 
 
 object FillMaxSize: LayoutModifier {
@@ -15,7 +16,6 @@ object FillMaxSize: LayoutModifier {
                 val size = Size(it.width, it.height)
                 doodleNode.size = applyPadding(doodleNode, size)
                 doodleNode.fixedSize = true
-
             }
         }
     }
@@ -146,12 +146,19 @@ class SizeModifier(
         return minHeight == other.minHeight
     }
 
+    override fun toString(): String {
+        return "SizeModifier(height=$height,width=$width,minWidth=$minWidth,minHeight=$minHeight)"
+    }
+
 
 }
 
 
 fun Modifier.size(height: Int, width: Int): Modifier{
     return then(SizeModifier(height, width))
+}
+fun Modifier.size(size: Size): Modifier{
+    return then(SizeModifier(height = size.height.roundToInt(), width = size.width.roundToInt()))
 }
 fun Modifier.size(size: Int): Modifier{
     return then(SizeModifier(size, size))

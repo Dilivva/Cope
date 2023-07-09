@@ -39,7 +39,7 @@ actual fun initComposeContent(
 }
 
 actual fun app(themesAndControl: List<DI.Module>, block: (NoArgBindingDI<*>) -> Application){
-    application(modules = themesAndControl) {
+    application(modules = themesAndControl){
         block(this)
     }
 }

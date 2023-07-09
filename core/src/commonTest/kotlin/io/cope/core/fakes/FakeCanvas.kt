@@ -5,6 +5,8 @@ import io.nacular.doodle.drawing.*
 import io.nacular.doodle.geometry.*
 import io.nacular.doodle.image.Image
 import io.nacular.doodle.text.StyledText
+import io.nacular.doodle.text.TextSpacing
+import io.nacular.doodle.utils.TextAlignment
 import io.nacular.measured.units.Angle
 import io.nacular.measured.units.Measure
 
@@ -140,13 +142,14 @@ val fakeCanvas = object: Canvas {
         TODO("Not yet implemented")
     }
 
-    override fun text(text: StyledText, at: Point) {
+    override fun text(text: StyledText, at: Point, textSpacing: TextSpacing) {
         TODO("Not yet implemented")
     }
 
-    override fun text(text: String, font: Font?, at: Point, fill: Paint) {
+    override fun text(text: String, font: Font?, at: Point, fill: Paint, textSpacing: TextSpacing) {
         TODO("Not yet implemented")
     }
+    
 
     override fun transform(transform: AffineTransform, camera: Camera, block: Canvas.() -> Unit) {
         TODO("Not yet implemented")
@@ -177,20 +180,32 @@ val fakeCanvas = object: Canvas {
         TODO("Not yet implemented")
     }
 
-    override fun wrapped(text: StyledText, at: Point, leftMargin: Double, rightMargin: Double) {
+    override fun wrapped(
+        text: StyledText,
+        at: Point,
+        width: Double,
+        indent: Double,
+        alignment: TextAlignment,
+        lineSpacing: Float,
+        textSpacing: TextSpacing
+    ) {
         TODO("Not yet implemented")
     }
 
     override fun wrapped(
         text: String,
-        font: Font?,
         at: Point,
-        leftMargin: Double,
-        rightMargin: Double,
-        fill: Paint
+        width: Double,
+        fill: Paint,
+        font: Font?,
+        indent: Double,
+        alignment: TextAlignment,
+        lineSpacing: Float,
+        textSpacing: TextSpacing
     ) {
         TODO("Not yet implemented")
     }
+
 
 }
 
@@ -315,13 +330,14 @@ fun getFakeCanvasDrawPathCallback(block: (Path, Stroke?, Paint?) -> Unit): Canva
             TODO("Not yet implemented")
         }
 
-        override fun text(text: StyledText, at: Point) {
+        override fun text(text: StyledText, at: Point, textSpacing: TextSpacing) {
             TODO("Not yet implemented")
         }
 
-        override fun text(text: String, font: Font?, at: Point, fill: Paint) {
+        override fun text(text: String, font: Font?, at: Point, fill: Paint, textSpacing: TextSpacing) {
             TODO("Not yet implemented")
         }
+
 
         override fun transform(transform: AffineTransform, camera: Camera, block: Canvas.() -> Unit) {
             TODO("Not yet implemented")
@@ -352,20 +368,32 @@ fun getFakeCanvasDrawPathCallback(block: (Path, Stroke?, Paint?) -> Unit): Canva
             TODO("Not yet implemented")
         }
 
-        override fun wrapped(text: StyledText, at: Point, leftMargin: Double, rightMargin: Double) {
+        override fun wrapped(
+            text: StyledText,
+            at: Point,
+            width: Double,
+            indent: Double,
+            alignment: TextAlignment,
+            lineSpacing: Float,
+            textSpacing: TextSpacing
+        ) {
             TODO("Not yet implemented")
         }
 
         override fun wrapped(
             text: String,
-            font: Font?,
             at: Point,
-            leftMargin: Double,
-            rightMargin: Double,
-            fill: Paint
+            width: Double,
+            fill: Paint,
+            font: Font?,
+            indent: Double,
+            alignment: TextAlignment,
+            lineSpacing: Float,
+            textSpacing: TextSpacing
         ) {
             TODO("Not yet implemented")
         }
+
 
     }
 }
@@ -490,13 +518,14 @@ fun getFakeCanvasDrawCircleCallback(block: (Circle, Stroke?, Paint?) -> Unit): C
             TODO("Not yet implemented")
         }
 
-        override fun text(text: StyledText, at: Point) {
+        override fun text(text: StyledText, at: Point, textSpacing: TextSpacing) {
             TODO("Not yet implemented")
         }
 
-        override fun text(text: String, font: Font?, at: Point, fill: Paint) {
+        override fun text(text: String, font: Font?, at: Point, fill: Paint, textSpacing: TextSpacing) {
             TODO("Not yet implemented")
         }
+
 
         override fun transform(transform: AffineTransform, camera: Camera, block: Canvas.() -> Unit) {
             TODO("Not yet implemented")
@@ -527,20 +556,32 @@ fun getFakeCanvasDrawCircleCallback(block: (Circle, Stroke?, Paint?) -> Unit): C
             TODO("Not yet implemented")
         }
 
-        override fun wrapped(text: StyledText, at: Point, leftMargin: Double, rightMargin: Double) {
+        override fun wrapped(
+            text: StyledText,
+            at: Point,
+            width: Double,
+            indent: Double,
+            alignment: TextAlignment,
+            lineSpacing: Float,
+            textSpacing: TextSpacing
+        ) {
             TODO("Not yet implemented")
         }
 
         override fun wrapped(
             text: String,
-            font: Font?,
             at: Point,
-            leftMargin: Double,
-            rightMargin: Double,
-            fill: Paint
+            width: Double,
+            fill: Paint,
+            font: Font?,
+            indent: Double,
+            alignment: TextAlignment,
+            lineSpacing: Float,
+            textSpacing: TextSpacing
         ) {
             TODO("Not yet implemented")
         }
+
 
     }
 }
@@ -664,13 +705,14 @@ fun getFakeCanvasDrawRectCallback(block: (Rectangle, Stroke?, Paint?) -> Unit): 
             TODO("Not yet implemented")
         }
 
-        override fun text(text: StyledText, at: Point) {
+        override fun text(text: StyledText, at: Point, textSpacing: TextSpacing) {
             TODO("Not yet implemented")
         }
 
-        override fun text(text: String, font: Font?, at: Point, fill: Paint) {
+        override fun text(text: String, font: Font?, at: Point, fill: Paint, textSpacing: TextSpacing) {
             TODO("Not yet implemented")
         }
+
 
         override fun transform(transform: AffineTransform, camera: Camera, block: Canvas.() -> Unit) {
             TODO("Not yet implemented")
@@ -701,20 +743,33 @@ fun getFakeCanvasDrawRectCallback(block: (Rectangle, Stroke?, Paint?) -> Unit): 
             TODO("Not yet implemented")
         }
 
-        override fun wrapped(text: StyledText, at: Point, leftMargin: Double, rightMargin: Double) {
+        override fun wrapped(
+            text: StyledText,
+            at: Point,
+            width: Double,
+            indent: Double,
+            alignment: TextAlignment,
+            lineSpacing: Float,
+            textSpacing: TextSpacing
+        ) {
             TODO("Not yet implemented")
         }
 
         override fun wrapped(
             text: String,
-            font: Font?,
             at: Point,
-            leftMargin: Double,
-            rightMargin: Double,
-            fill: Paint
+            width: Double,
+            fill: Paint,
+            font: Font?,
+            indent: Double,
+            alignment: TextAlignment,
+            lineSpacing: Float,
+            textSpacing: TextSpacing
         ) {
             TODO("Not yet implemented")
         }
+
+
 
     }
 }

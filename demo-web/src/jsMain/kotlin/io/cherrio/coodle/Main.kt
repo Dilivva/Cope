@@ -7,17 +7,24 @@ import io.cope.core.layout.Box
 import io.cope.core.layout.Column
 import io.cope.core.layout.Row
 import io.cope.core.modifier.*
+import io.cope.foundation.button.BasicButton
 import io.cope.foundation.button.Button
+import io.cope.foundation.text.BasicText
 import io.cope.foundation.text.Text
+import io.cope.foundation.text.TextAlign
 import io.cope.foundation.textfield.TextField
 import io.nacular.doodle.application.Modules
 import io.nacular.doodle.drawing.Color
+import io.nacular.doodle.drawing.Font
 
 import io.nacular.doodle.theme.basic.BasicTheme
 import io.nacular.doodle.theme.native.NativeTheme
 
 
 fun main() {
+
+    // Moving on to material design YAAY!
+
     val themes = listOf(
         BasicTheme.basicButtonBehavior(),
         BasicTheme.basicLabelBehavior(),
@@ -34,52 +41,67 @@ fun main() {
         var welcomeCount by remember { mutableStateOf(0) }
 
 
-        Box(
+        Column(
             modifier = Modifier
-                //.fillMaxWidth()
-                .background(Color.Black)
-                .fillMaxSize()
+                .background(Color.Yellow)
                 .padding(15)
-                .shadow(4)
+                .shadow(4),
+            //verticalAlignment = Alignment.Vertical.CenterVertically
         ) {
 
             Text(
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  $welcomeCount",
                 modifier = Modifier
                     .padding(15)
-                    .fillMaxWidth()
-                    .height(100)
-                    .align(Alignment.TopStart)
-
-
+                    .width(700)
+                    //.align(Alignment.Vertical.Bottom)
+                    .weight(1f)
             )
-//            Text(
-//                text = "Welcome Home",
-//                modifier = Modifier
-//                    .align(Alignment.Center)
-//                    .background(Color.Green)
-//                    .padding(15)
-//                    .width(200)
-//                    .height(100)
-//            )
-//            Text(
-//                text = "Continue",
-//                modifier = Modifier
-//                    .background(Color.Black)
-//                    .width(100)
-//                    .height(40)
-//            )
+
+
             Button(
                 modifier = Modifier
                     .padding(10)
-                    .height(50)
-                    .width(200)
-                    .align(Alignment.Center)
+                    //.height(100)
+                    //.width(500)
+                    //.align(Alignment.Vertical.Top)
+                    .weight(1f)
+                ,
+                text = "Be Top",
+            )
+
+
+
+            Button(
+                modifier = Modifier
+                    .padding(10)
+                    //.width(500)
+                    //.height(100)
+                    .weight(1f)
                     .clickable {
                         welcomeCount++
                     },
                 text = "Login here",
             )
+//
+            BasicButton(
+                modifier = Modifier
+                    .padding(15)
+                    .size(50, 200)
+                    //.align(Alignment.Vertical.Top)
+                ,
+                onClick = { welcomeCount++ }
+            ){
+                BasicText(
+                    modifier = Modifier.size(23, 70).align(Alignment.Center),
+                    text = "Welcome",
+                    color = Color.Black,
+                    fontSize = 16,
+                    fontWeight = 400,
+                    fontStyle = Font.Style.Normal,
+                    wrapWords = false
+                )
+            }
         }
     }
 //    renderComposable(root = "roo"){

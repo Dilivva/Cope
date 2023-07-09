@@ -17,21 +17,27 @@ interface ColumnScope{
     fun Modifier.weight(weight: Float): Modifier
 
     @Stable
-    fun Modifier.align(alignment: io.cope.core.layout.Alignment.Horizontal): Modifier
+    fun Modifier.align(alignment: Alignment.Horizontal): Modifier
 
 }
 
 
 @Composable
-fun Column(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    val measurement = ColumnScopeInstance()
+fun Column(
+    modifier: Modifier = Modifier,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Horizontal.Start,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    val measurement = ColumnScopeInstance(horizontalAlignment = horizontalAlignment)
     Layout(modifier, measurement, content = { measurement.content() })
 }
 
 
 
 @Immutable
-private class ColumnScopeInstance: LayoutMeasurement, ColumnScope{
+private class ColumnScopeInstance(
+    private val horizontalAlignment: Alignment.Horizontal
+): LayoutMeasurement, ColumnScope{
     private val weightsImpl  =  WeightsImpl()
 
     override fun layout(
@@ -42,13 +48,10 @@ private class ColumnScopeInstance: LayoutMeasurement, ColumnScope{
         var y = 0.0
         val x = 0.0
         doodleViews.forEachIndexed { index, doodleNode ->
-            positionableContainer.children[index].bounds = doodleNode.measure(x, y, positionableContainer)
+            positionableContainer.children[index].bounds = alignChild(x, y, horizontalAlignment, positionableContainer, doodleNode)
             y += doodleNode.height
         }
-        weightsImpl.setWeightedChildrenAndWeights(
-            doodleViews.map { it.verticalWeight }.sum(),
-            y
-        )
+        weightsImpl.setWeightedChildrenAndWeights(doodleViews.map { it.verticalWeight }.sum(), y)
         weightsImpl.applyWeightsForRowOrColumn(doodleViews, parent, false)
     }
 
@@ -63,12 +66,13 @@ private class ColumnScopeInstance: LayoutMeasurement, ColumnScope{
     }
 
     @Stable
-    override fun Modifier.align(alignment: io.cope.core.layout.Alignment.Horizontal): Modifier {
+    override fun Modifier.align(alignment: Alignment.Horizontal): Modifier {
         return then(alignment)
     }
 
     @Stable
     override fun Modifier.weight(weight: Float): Modifier{
+        require(weight > 0f){ "Weight must be greater than zero" }
         return then(WeightModifier(height = weight))
     }
 

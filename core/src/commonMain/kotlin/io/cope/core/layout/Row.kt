@@ -13,20 +13,26 @@ import io.nacular.doodle.geometry.Size
 interface RowScope{
 
     @Stable
-    fun Modifier.align(alignment: io.cope.core.layout.Alignment.Vertical): Modifier
+    fun Modifier.align(alignment: Alignment.Vertical): Modifier
 
     @Stable
     fun Modifier.weight(weight: Float): Modifier
 }
 @Composable
-fun Row(modifier: Modifier = Modifier, content: @Composable RowScope.() -> Unit) {
-    val measurement = RowScopeInstance()
+fun Row(
+    modifier: Modifier = Modifier,
+    verticalAlignment: Alignment.Vertical = Alignment.Vertical.Top,
+    content: @Composable RowScope.() -> Unit
+) {
+    val measurement = RowScopeInstance(verticalAlignment = verticalAlignment)
     Layout(modifier, measurement, content = {measurement.content()})
 }
 
 
 
-internal class RowScopeInstance: LayoutMeasurement, RowScope{
+internal class RowScopeInstance(
+    private val verticalAlignment: Alignment.Vertical
+): LayoutMeasurement, RowScope{
     private val weightsImpl  =  WeightsImpl()
 
     override fun layout(
@@ -37,13 +43,10 @@ internal class RowScopeInstance: LayoutMeasurement, RowScope{
         val y = 0.0
         var x = 0.0
         doodleViews.forEachIndexed { index, doodleNode ->
-            positionableContainer.children[index].bounds = doodleNode.measure(x, y, positionableContainer)
+            positionableContainer.children[index].bounds = alignChild(x, y, verticalAlignment, positionableContainer, doodleNode)
             x += doodleNode.width
         }
-        weightsImpl.setWeightedChildrenAndWeights(
-            doodleViews.map { it.horizontalWeight }.sum(),
-            x
-        )
+        weightsImpl.setWeightedChildrenAndWeights(doodleViews.map { it.horizontalWeight }.sum(), x)
         weightsImpl.applyWeightsForRowOrColumn(doodleViews, parent, true)
     }
     override fun getSize(parent: DoodleNode, children: List<DoodleNode>): Size {
@@ -58,7 +61,7 @@ internal class RowScopeInstance: LayoutMeasurement, RowScope{
     }
 
     @Stable
-    override fun Modifier.align(alignment: io.cope.core.layout.Alignment.Vertical): Modifier{
+    override fun Modifier.align(alignment: Alignment.Vertical): Modifier{
         return then(alignment)
     }
 

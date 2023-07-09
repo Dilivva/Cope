@@ -1,5 +1,6 @@
 package io.cope.core.node
 
+import io.cope.core.drawing.Drawing
 import io.cope.core.modifier.*
 import io.nacular.doodle.controls.panels.ScrollPanel
 import io.nacular.doodle.core.Container
@@ -59,6 +60,8 @@ abstract class DoodleNode {
             field = value
             height = value
         }
+    var hasFixedAlignment = false
+        private set
 
     var fixedSize: Boolean = false
         set(value) {
@@ -76,15 +79,17 @@ abstract class DoodleNode {
 
     var size = Size.Empty
         set(value) {
-            field = value
-            height = value.height
-            width = value.width
+            if (value != field) {
+                field = value
+                height = value.height
+                width = value.width
+            }
         }
         get() = Size(width, height)
 
-    /** Each composable Modifier
+    /** Each composable Modifiers chained
      *  It only applies the modification to the view
-     *  if there's a size that the Size Modifiers can use
+     *  once the parent has given the child a constraint
      *
      *  Note: the setValue is called many times by the Composition
      */
@@ -111,35 +116,35 @@ abstract class DoodleNode {
         }
 
     internal var backgroundColorState = io.cope.core.drawing.BackgroundColorState()
-    val maxSize: Size
-        get() {
-            return if (positionable != null){
-                Size(positionable!!.width, positionable!!.height)
-            }else{
-                Size(0.0, 0.0)
-            }
-        }
+    var maxSize: Size = Size.Empty
+        protected set
 
     var scrollable = false
 
-
+    internal var drawing: Drawing? = null
 
     protected var bounds = Rectangle(x, y, width, height)
     var positionable: PositionableContainer? = null
+        set(value) {
+            if (value != null){
+                field = value
+                maxSize = value.idealSize ?: value.size
+            }
+        }
 
     /**
-     * Called when ever there's a need to re-layout
+     * Called first time to set constraints and when ever there's a need to re-layout
      * 1. Sets the layout container [PositionableContainer] size
      * 2. apply the Modifiers: measuring
      * 3. apply placement
      */
     open fun measure(x: Double, y: Double, positionable: PositionableContainer): Rectangle{
+        this.x = x
+        this.y = y
         this.positionable = positionable
         modifier = modifier
 
-        this.x = x
-        this.y = y
-        applyBounds(container, modifier)
+        applyBounds(modifier)
         return bounds
     }
 
@@ -153,7 +158,7 @@ abstract class DoodleNode {
         it.bottom eq parent.bottom - padding.bottom
     }
 
-    internal var drawing: io.cope.core.drawing.Drawing? = null
+
 
     protected fun Canvas.applyShapeAndBackground() {
         drawing?.draw(this, this@DoodleNode)
@@ -169,10 +174,12 @@ abstract class DoodleNode {
         }
     }
 
-    protected fun applyBounds(container: View, modifier: Modifier) {
+    protected fun applyBounds(modifier: Modifier) {
         bounds = if (modifier.containAnyAlignment()) {
+            hasFixedAlignment = true
             container.bounds
         } else {
+            hasFixedAlignment = false
             Rectangle(x, y, container.width, container.height)
         }
     }

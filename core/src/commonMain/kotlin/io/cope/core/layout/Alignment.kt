@@ -30,7 +30,7 @@ interface Alignment: Modifier {
                 parent: PositionableContainer,
                 doodleNode: DoodleNode
             ): AlignmentPosition {
-                return AlignmentPosition.Default
+                return AlignmentPosition(doodleNode.x, doodleNode.y)
             }
 
         }
@@ -108,7 +108,7 @@ interface Alignment: Modifier {
         companion object{
             val Start: Horizontal = object: Horizontal {
                 override fun align(parent: PositionableContainer, doodleNode: DoodleNode): AlignmentPosition {
-                    return AlignmentPosition.Default
+                    return AlignmentPosition(doodleNode.x, doodleNode.y)
                 }
 
             }
@@ -132,7 +132,8 @@ interface Alignment: Modifier {
             
             val Top: Vertical = object: Vertical {
                 override fun align(parent: PositionableContainer, doodleNode: DoodleNode): AlignmentPosition {
-                    return AlignmentPosition.Default
+
+                    return AlignmentPosition(doodleNode.x, doodleNode.y)
                 }
             }
             val Bottom: Vertical = object: Vertical {
@@ -170,9 +171,4 @@ internal class AlignmentImpl: Alignment{
 data class AlignmentPosition(
     val x: Double,
     val y: Double
-){
-    companion object{
-        val Default = AlignmentPosition(0.0, 0.0)
-    }
-
-}
+)

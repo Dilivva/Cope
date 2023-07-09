@@ -3,12 +3,12 @@ package io.cope.core.modifier
 import io.cope.core.node.DoodleNode
 
 class WeightModifier(
-    private val height: Float? = null,
-    private val width: Float? = null,
+    val height: Float? = null,
+    val width: Float? = null,
 ): Modifier{
 
 
-    @Suppress("Duplicates")
+
     override fun apply(doodleNode: DoodleNode) {
         height?.let {
             doodleNode.verticalWeight = it
@@ -32,6 +32,10 @@ class WeightModifier(
         var result = height?.hashCode() ?: 0
         result = 31 * result + (width?.hashCode() ?: 0)
         return result
+    }
+
+    override fun toString(): String {
+        return "WeightModifier(height=$height, width=$width)"
     }
 
 
