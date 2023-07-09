@@ -31,7 +31,7 @@ kotlin {
                 implementation(libs.doodle.core)
                 implementation(libs.doodle.theme)
                 implementation(compose.runtime)
-                implementation("org.kodein.di:kodein-di:7.0.0")
+                implementation(libs.kodien)
                 implementation(libs.kotlinx.coroutines)
             }
         }
